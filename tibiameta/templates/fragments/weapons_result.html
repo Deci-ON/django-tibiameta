@@ -1,0 +1,27 @@
+{% load static %}
+
+{% if calculated_results %}
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="row">   
+            {% for result in calculated_results %}
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="card pt-2 px-5">
+                        <div class="card-header">
+                            <h3 class="card-title text-center">{{ result.weapon_type }}</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row justify-content-center pb-5">
+                                    <p><img src="{% static 'images/exercise_weapons/'%}{{ result.weapon_type }}_{{ result.selected_skill }}.gif" id = "{{ result.weapon_type }}" name = "{{ result.selected_skill }}" alt="{{ result.selected_skill }}" style="min-width: 10%; max-width: 15%;"><b>Weapons Needed:</b> <b><span style="color: rgb(255, 191, 30);"> {{ result.weapons_needed }}</span></b></p>
+                                    <p><img src="{% static 'images/media/Watch.gif' %}" alt="Watch" style="max-width: 15%;"><b class="watch px-2">Time Need:</b> {{ result.dias }} days, {{ result.horas }} hours, {{ result.minutos }} minutes and {{ result.segundos }} seconds.</p>
+                                    <p><img src="{% static 'images/media/Gold_Coin.gif' %}" alt="Gold Coins" style="max-width: 15%;"><b class="golds px-2">Gold Spend:</b><span style="color: rgb(4, 241, 0);"> {{ result.gold_spend }}KK</span></p>
+                                    <p><img src="{% static 'images/media/Tibia_Coin.gif' %}" alt="Tibia Coins" style="max-width: 15%;"><b class="coins px-2">Tibia Coins Spend:</b> <b><span style="color: rgb(255, 136, 0);"> {{ result.coins_spend }} </span> </b></p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                        </div>
+                </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}

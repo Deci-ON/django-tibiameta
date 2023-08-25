@@ -1,0 +1,314 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" dir="ltr">
+
+    <head>
+        <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-248395791-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-248395791-1');
+</script>
+
+
+        <!-- META DATA -->
+        <meta charset="UTF-8">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0,
+            user-scalable=0'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="Tibia Meta - Powerfull tools and infos
+            about Tibia Characters">
+        <meta name="author" content="Matheus Decion">
+        <meta name="keywords" content="tibia, tibiameta, tibia meta, Tibia Meta,
+            tools, dashboards, tibia gold, tibia character">
+
+        <!-- FAVICON -->
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo/favicon.ico' %}" />
+
+        <!-- TITLE -->
+        <title>Tibia Meta</title>
+
+        <!-- BOOTSTRAP CSS -->
+        <link id="style" href="{% static 'css/bootstrap/bootstrap.min.css' %}"
+            rel="stylesheet" />
+
+        <!-- STYLE CSS -->
+        <link href="{% static 'css/styles/style.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/styles/dark-style.css' %}" rel="stylesheet"
+            />
+        <link href="{% static 'css/styles/transparent-style.css' %}"
+            rel="stylesheet">
+        <link href="{% static 'css/styles/skin-modes.css' %}" rel="stylesheet"
+            />
+
+        <!--- FONT-ICONS CSS -->
+        <link href="{% static 'css/styles/icons.css' %}" rel="stylesheet" />
+        <link rel="stylesheet"
+	    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <!-- COLOR SKIN CSS -->
+        <link id="theme" rel="stylesheet" type="text/css" media="all" href="{%static 'colors/color1.css' %}" />
+
+        <!-- INTERNAL Switcher css -->
+        <link href="{% static 'switcher/css/switcher.css' %}" rel="stylesheet"/>
+        <link href="{% static 'switcher/demo.css' %}" rel="stylesheet" />
+ 
+ 
+    </head>
+    <body class="app sidebar-mini ltr dark-mode" onload="setInterval(sizeOfThings,100)">
+        {% include 'fragments/switcher.html' %}
+            <!-- GLOBAL-LOADER -->
+    <div id="global-loader">
+        <div class="spinner-border text-primary loader-img" role="status" style="width: 5rem; height: 5rem">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="page-main">
+            <!-- app-Header -->
+            {% include 'fragments/header2.html' %}
+            <!-- /app-Header -->
+
+            <!--APP-SIDEBAR-->
+            {% include 'fragments/sidebar.html' %}
+            <!--/APP-SIDEBAR-->
+    <div class="main-content app-content mt-5">
+        <div class="side-app">
+        <div class="row row-cols-4">
+            <div class="col-xl-3 col-sm-12 col-md-3">
+                <div class="card border p-0">
+                    <div class="card-header text-center">
+                    </div>
+                    <div class="card-body text-center" id="card_left">
+                        <h4 class="h3 mb-0 mt-3">{{data.characters.character.name }}</h4>
+                        <p class="card-text">
+
+                        {% if data %}
+                        <ul>
+                            <!---Paladin-->
+                            {% if data.characters.character.vocation == 'Royal Paladin' and data.characters.character.sex == 'female' or data.characters.character.vocation == 'Paladin' and data.characters.character.sex == 'female' %}
+                            <img src="{% static 'images/vocations/Outfit_Hunter_Female_Addon_3.gif' %}" alt="Paladin" height="80px">
+                            {% elif data.characters.character.vocation == 'Royal Paladin' and data.characters.character.sex == 'male' or data.characters.character.vocation == 'Paladin' and data.characters.character.sex == 'male' %}
+                            <img src="{% static 'images/vocations/Outfit_Hunter_Male_Addon_3.gif' %}" alt="Paladin" height="80px">
+                            <!---Knight-->
+                            {% elif data.characters.character.vocation == 'Elite Knight' and data.characters.character.sex == 'male' or data.characters.character.vocation == 'Knight' and data.characters.character.sex == 'male' %}
+                            <img src="{% static 'images/vocations/Outfit_Knight_Male_Addon_3.gif' %}" alt="Knight" height="80px">
+                            {% elif data.characters.character.vocation == 'Elite Knight' and data.characters.character.sex == 'female' or data.characters.character.vocation == 'Knight' and data.characters.character.sex == 'female' %}
+                            <img src="{% static 'images/vocations/Outfit_Knight_Female_Addon_3.gif' %}" alt="Knight" height="80px">
+                            <!---Druid--->
+                            {% elif data.characters.character.vocation == 'Elder Druid' and data.characters.character.sex == 'male' or data.characters.character.vocation == 'Druid' and data.characters.character.sex == 'male' %}
+                            <img src="{% static 'images/vocations/Outfit_Druid_Male_Addon_3.gif' %}" alt="Druid" height="80px">
+                            {% elif data.characters.character.vocation == 'Elder Druid' and data.characters.character.sex == 'female' or data.characters.character.vocation == 'Druid' and data.characters.character.sex == 'female' %}
+                            <img src="{% static 'images/vocations/Outfit_Druid_Female_Addon_3.gif' %}" alt="Druid" height="80px">
+                            <!---Sorcerer-->
+                            {% elif data.characters.character.vocation == 'Master Sorcerer' and data.characters.character.sex == 'male' or data.characters.character.vocation == 'Sorcerer' and data.characters.character.sex == 'male' %}
+                            <img src="{% static 'images/vocations/Outfit_Sorcerer_Male_Addon_3.gif' %}" alt="Sorcerer" height="80px">
+                            {% elif data.characters.character.vocation == 'Master Sorcerer' and data.characters.character.sex == 'female' or data.characters.character.vocation == 'Sorcerer' and data.characters.character.sex == 'female' %}
+                            <img src="{% static 'images/vocations/Outfit_Sorcerer_Female_Addon_3.gif' %}" alt="Sorcerer" height="80px">
+                            {% endif %}
+                            <br>
+                            <br>
+                            {% if online == 'Online' %}
+                            <p class="online" style="color:rgb(10, 188, 10)">ONLINE</p>
+                            {% else %}
+                            <p class="offline" style="color:red">OFFLINE</p>
+                            {% endif %}
+                            <li>Level: {{ data.characters.character.level }}</li>
+                            <li>{{ data.characters.character.vocation }}</li>
+                        {% endif %}
+                        <div class="life">
+                            <img src="{% static 'images/media/life.png' %}" height="15px">
+                            <p>{{ hitpoints }}</p>
+                        </div>
+
+                        <div class="mana">
+                            <img src="{% static 'images/media/mana.png' %}" height="15px">
+                            <p>{{ mana }}</p>
+                        </div>
+                            <li>Capacity: {{ cap }}</li>
+                            <li>Level range to share:
+                                <br>
+                            {{ min_level }} - {{ max_level }}</li>
+                            {% if data.characters.character.account_status == "Premium Account" %}
+                            <li style="color: rgb(255, 191, 30);"><b>Premium Account</b></li>
+                            {% else %}
+                            <b><li style="color: red;">Free Account</li></b>
+                            {% endif %}
+                            <li>World: {{ data.characters.character.world }}</li>
+                            <li>Residence: {{ data.characters.character.residence }}</li>
+                            <li>Last Login: {{ data.characters.character.last_login }}</li>
+
+                        </ul>
+                    </p>
+
+
+                    </div>
+                    <div class="card-footer text-center">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-9 col-sm-12 col-md-9">
+                <div class="card">
+                    <div class="card-header">
+                        <!-- <h3 class="card-title"></h3> -->
+                    </div>
+                    <div class="card-body" id="card_right">
+                        <div id="experience" class="chartsh" style="height: 100%; width:100%"></div>
+                    </div>
+                    <div class="card-footer text-center">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Corrige Tamanho Cards -->
+        <script>
+            function sizeOfThings() {
+                modal_e = document.getElementById("card_left").offsetHeight;
+                            modal_d = document.getElementById("card_right");
+                            modal_d.style.height = modal_e + 'px';
+            };
+            sizeOfThings();
+
+            window.addEventListener('resize', function() {
+                sizeOfThings();
+            });
+        </script>
+
+        <!-- Echarts -->
+        <script src="
+            https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js
+            "></script>
+        <script>
+var chartDom = document.getElementById('experience');
+var myChart = echarts.init(chartDom);
+var option = JSON.parse('{{graph|escapejs}}')
+
+
+myChart.setOption(option);
+window.onresize = function() {
+    myChart.resize();
+  };
+        </script>
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Char Experience in the last
+                            30
+                            Days</h3>
+                    </div>
+                    <div class="card-body">
+                            <table id="example2" class="table border text-nowrap text-md-nowrap table-striped mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th><b>Exp</b></th>
+                                        <th>Exp Change</th>
+                                        <th>Level</th>
+                                        <th>World</th>
+                                        <th>Online Time</th>
+                                        <th>Exp/Hour</th>
+                                        <th>World Rank</th>
+                                        <th>Voc Rank</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% cycle -1 as previous_level silent %}
+                                    {% for object in objects_list %}
+                                    {% if not forloop.first %}
+                                    <tr>
+                                    {% for column in object %}
+                                    <td>{{ column }}
+                                    {% if forloop.counter == 4 %}
+                                    {% ifchanged previous_level %}
+                                    {% if object.3 > previous_level %}
+                                    <i class="fa-solid fa-arrow-up" style="color: #6cf000;"></i>
+                                    {% elif object.3 < previous_level %}
+                                    <i class="fa-solid fa-arrow-down" style="color: #ff0000;"></i>
+                                    {% else %}
+                                    {% endif %}
+                                    {% cycle object.3 as previous_level silent %}
+                                    {% endifchanged %}
+                                    {% endif %}
+                                    </td>
+                                    {% endfor %}
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <tr>
+                                        <td>Total:</td>
+                                        <td></td>
+                                        <td>{{ total_char_change_exp }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Aprox: {{ total_hours }} hours played.</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+
+            <!-- FOOTER -->
+            {% include 'fragments/footer.html' %}
+            <!-- FOOTER CLOSED -->
+            <!-- BACK-TO-TOP -->
+            <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+            <!-- JQUERY JS -->
+            <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+            <!-- BOOTSTRAP JS -->
+            <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+            <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+            <!-- SIDE-MENU JS -->
+            <script src="{% static 'js/sidemenu/sidemenu.js' %}"></script>
+            <!-- TypeHead js -->
+            <!-- <script src="../assets/plugins/bootstrap5-typehead/autocomplete.js"></script>
+    <script src="../assets/js/typehead.js"></script> -->
+            <!-- SIDEBAR JS -->
+            <script src="{% static 'js/sidebar/sidebar.js' %}"></script>
+            <!--Perfect SCROLLBAR JS -->
+            <script src="{% static 'js/p-scroll/perfect-scrollbar.js' %}"></script>
+            <script src="{% static 'js/p-scroll/pscroll.js' %}"></script>
+            <script src="{% static 'js/p-scroll/pscroll-1.js' %}"></script>
+            <!-- Color Theme js -->
+            <script src="{% static 'js/themecolors/themeColors.js' %}"></script>
+            <!-- Sticky js -->
+            <script src="{% static 'js/sticky/sticky.js' %}"></script>
+
+            <!-- CUSTOM JS -->
+            <script src="{% static 'js/custom1/custom1.js' %}"></script>
+            <!-- Switcher js -->
+            <script src="{% static 'switcher/js/switcher.js' %}"></script>
+            <!-- Data Tables -->
+            <script src="{% static 'select2/select2.full.min.js' %}"></script>
+            <script src="{% static 'datatable/js/jquery.dataTables.min.js' %}"></script>
+            <script src="{% static 'datatable/js/dataTables.bootstrap5.js' %}"></script>
+            <script src="{% static 'datatable/js/dataTables.buttons.min.js' %}"></script>
+            <script src="{% static 'datatable/js/buttons.bootstrap5.min.js' %}"></script>
+            <script src="{% static 'datatable/js/jszip.min.js' %}"></script>
+            <script src="{% static 'datatable/js/buttons.html5.min.js' %}"></script>
+            <script src="{% static 'datatable/js/buttons.print.min.js' %}"></script>
+            <script src="{% static 'datatable/js/buttons.colVis.min.js' %}"></script>
+            <script src="{% static 'datatable/dataTables.responsive.min.js' %}"></script>
+            <script src="{% static 'datatable/responsive.bootstrap5.min.js' %}"></script>
+            <script src="{% static 'tabledata/table-data.js' %}"></script>
+        </body>
+
+    </html>

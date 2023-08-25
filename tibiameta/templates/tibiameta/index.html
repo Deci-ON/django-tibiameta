@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+{% load static %}
+
+
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-248395791-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-248395791-1');
+</script>
+
+    <!-- META DATA -->
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Tibia Meta - Powerfull tools and infos about Tibia Characters">
+    <meta name="author" content="Matheus Decion">
+    <meta name="keywords" content="tibia, tibiameta, tibia meta, Tibia Meta, tools, dashboards, tibia gold, tibia character">
+
+    <!-- FAVICON -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo/favicon.ico' %}" />
+
+    <!-- TITLE -->
+    <title>Tibia Meta</title>
+
+    <!-- BOOTSTRAP CSS -->
+    <link id="style" href="{% static 'css/bootstrap/bootstrap.min.css' %}" rel="stylesheet" />
+
+    <!-- STYLE CSS -->
+    <link href="{% static 'css/styles/style.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/styles/dark-style.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/styles/transparent-style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styles/skin-modes.css' %}" rel="stylesheet" />
+
+    <!--- FONT-ICONS CSS -->
+    <link href="{% static 'css/styles/icons.css' %}" rel="stylesheet" />
+
+    <!-- COLOR SKIN CSS -->
+    <link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'colors/color1.css' %}" />
+
+    <!-- INTERNAL Switcher css -->
+    <link href="{% static 'switcher/css/switcher.css' %}" rel="stylesheet" />
+    <link href="{% static 'switcher/demo.css' %}" rel="stylesheet" />
+        <!-- Switcher -->
+    {% include 'fragments/switcher.html' %}
+
+        <!-- End Switcher -->
+
+</head>
+
+<body class="app sidebar-mini ltr dark-mode" onload="iniciar()">
+
+
+
+    <!-- GLOBAL-LOADER -->
+    <div id="global-loader">
+        <div class="spinner-border text-primary loader-img" role="status" style="width: 5rem; height: 5rem">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <!-- /GLOBAL-LOADER -->
+
+    <!-- PAGE -->
+    <div class="page">
+        <div class="page-main">
+
+            <!-- app-Header -->
+            {% include 'fragments/header.html' %}
+            <!-- /app-Header -->
+
+            <!--APP-SIDEBAR-->
+            {% include 'fragments/sidebar.html' %}
+            <!--/APP-SIDEBAR-->
+
+
+            <!--app-content open-->
+            <div class="main-content app-content mt-0 mb-0" id="stars-page">
+                <div class="side-app">
+                    <!-- CONTAINER -->
+                    <div class="main-container container-fluid mt"> <!---<style="background-image: url('../assets/images/landing/capa.webp'); background-repeat:no-repeat; background-size:auto;"> -->
+                        <div class="row justify-content-center">
+                            <div class="col-xl-4 mt-9" style="margin-bottom: 60px;">
+                                <div class="text-center">
+                                  <img src="{% static 'images/logo/tibiametalogo2beta.webp' %}" alt="Tibia Meta Logo" style="max-width: 100%;">
+                                </div>
+                                <form id="searchForm" method="GET" action="{% url 'characterinfo' %}">
+                                  <div class="input-group d-flex w-100 my-1">
+                                    <input type="text" class="form-control" placeholder="Search Character" name="character">
+                                    <div class="input-group-append">
+                                      <button id="searchButton" class="btn input-group-text bg-transparent text-muted" type="submit">
+                                        <i class="fa fa-search fs-16" aria-hidden="true"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <div id="loadingSpinner" style="display: none;">
+                                    <i class="spinner-border text-primary loader-img" style="width: 5rem; height: 5rem"></i>
+                                  </div>
+                                </form>
+                                {% if error %}
+                                <p class="error" style="color:red">{{ error }}</p>
+                                {% endif %}
+                              </div>
+                        <!-- PAGE-HEADER -->
+                        <!-- <div class="page-header">
+                            <div>
+
+                            </div>
+                        </div> -->
+                        <!-- PAGE-HEADER END -->
+
+                        <!-- ROW-1 OPEN -->
+                        <!-- Row -->
+                        <!-- <div class="row ">
+                            <div class="col-md-12">
+                            </div>
+                        </div> -->
+                        <!-- /Row -->
+                    </div>
+                    <!-- CONTAINER CLOSED -->
+                </div>
+            </div>
+            <!--app-content closed-->
+        </div>
+
+        <!-- Country-selector modal-->
+        {% include 'fragments/countrymodal.html' %}
+
+        <!-- Country-selector modal-->
+
+        <!-- FOOTER -->
+        {% include 'fragments/footer.html' %}
+        <!-- FOOTER CLOSED -->
+    </div>
+
+
+    <!-- BACK-TO-TOP -->
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+    <script>
+      function removeStar(star) {
+          setTimeout(function() {
+              star.remove();
+          }, 1000);
+      }
+
+      function createStar() {
+          const star = document.createElement('div');
+          star.classList.add('starry-star');
+          star.style.top = Math.random() * 100 + 'vh';
+          star.style.left = Math.random() * 100 + 'vw';
+          star.style.animationDelay = Math.random() * 5 + 's';
+          document.getElementById('stars-page').appendChild(star);
+          setTimeout(function() {
+              star.style.opacity = 0;
+              removeStar(star);
+          }, 3000);
+      }
+
+      function createStars() {
+          for (let i = 1; i <= 10; i++) {
+              createStar();
+          }
+      }
+
+      function iniciar() {
+          setInterval(createStars, 500);
+      }
+  </script>
+
+    <!-- JQUERY JS -->
+    <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+
+    <!-- BOOTSTRAP JS -->
+    <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+
+    <!-- SIDE-MENU JS -->
+    <script src="{% static 'js/sidemenu/sidemenu.js' %}"></script>
+
+	<!-- TypeHead js -->
+	<!-- <script src="../assets/plugins/bootstrap5-typehead/autocomplete.js"></script>
+    <script src="../assets/js/typehead.js"></script> -->
+
+    <!-- SIDEBAR JS -->
+    <script src="{% static 'js/sidebar/sidebar.js' %}"></script>
+
+    <!--Perfect SCROLLBAR JS -->
+    <script src="{% static 'js/p-scroll/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'js/p-scroll/pscroll.js' %}"></script>
+    <script src="{% static 'js/p-scroll/pscroll-1.js' %}"></script>
+
+    <!-- Color Theme js -->
+    <script src="{% static 'js/themecolors/themeColors.js' %}"></script>
+
+    <!-- Sticky js -->
+    <script src="{% static 'js/sticky/sticky.js' %}"></script>
+
+    <!-- CUSTOM JS -->
+    <script src="{% static 'js/custom1/custom1.js' %}"></script>
+
+    <!-- Switcher js -->
+    <script src="{% static 'switcher/js/switcher.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#searchForm').submit(function() {
+      // Desativa o botão de pesquisa
+      $('#searchButton').prop('disabled', true);
+      // Oculta o botão de pesquisa
+      $('#searchButton').hide();
+      // Exibe o botão de carregamento
+      $('#loadingSpinner').show();
+    });
+  });
+</script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,260 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" dir="ltr">
+
+
+
+    <head>
+
+        <!-- META DATA -->
+        <meta charset="UTF-8">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0,
+            user-scalable=0'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="Tibia Meta - Powerfull tools and infos
+            about Tibia Characters">
+        <meta name="author" content="Matheus Decion">
+        <meta name="keywords" content="tibia, tibiameta, tibia meta, Tibia Meta,
+            tools, dashboards, tibia gold, tibia character">
+
+        <!-- FAVICON -->
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo/favicon.ico' %}" />
+
+        <!-- TITLE -->
+        <title>Tibia Meta</title>
+
+        <!-- BOOTSTRAP CSS -->
+        <link id="style" href="{% static 'css/bootstrap/bootstrap.min.css' %}"
+            rel="stylesheet" />
+
+        <!-- STYLE CSS -->
+        <link href="{% static 'css/styles/style.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/styles/dark-style.css' %}" rel="stylesheet"
+            />
+        <link href="{% static 'css/styles/transparent-style.css' %}"
+            rel="stylesheet">
+        <link href="{% static 'css/styles/skin-modes.css' %}" rel="stylesheet"
+            />
+
+        <!--- FONT-ICONS CSS -->
+        <link href="{% static 'css/styles/icons.css' %}" rel="stylesheet" />
+        <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <!-- COLOR SKIN CSS -->
+        <link id="theme" rel="stylesheet" type="text/css" media="all"
+            href="{%static 'colors/color1.css' %}" />
+
+        <!-- INTERNAL Switcher css -->
+        <link href="{% static 'switcher/css/switcher.css' %}" rel="stylesheet"/>
+        <link href="{% static 'switcher/demo.css' %}" rel="stylesheet" />
+    </head>
+
+    <body class="app sidebar-mini ltr dark-mode">
+        {% include 'fragments/switcher.html' %}
+        <!-- GLOBAL-LOADER -->
+        <div id="global-loader">
+            <div class="spinner-border text-primary loader-img" role="status"
+                style="width: 5rem; height: 5rem">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div class="page">
+            <div class="page-main">
+                <!-- app-Header -->
+                {% include 'fragments/header2.html' %}
+                <!-- /app-Header -->
+
+                <!--APP-SIDEBAR-->
+                {% include 'fragments/sidebar.html' %}
+                <!--/APP-SIDEBAR-->
+                <div class="main-content app-content mt-0">
+                    <div class="side-app">
+                        <div class="row mt-0">
+                            <div class="col-xl-6 col-sm-6 col-md-6 mt-5"
+                                style="margin:
+                                auto;">
+
+                                <div class="card border p-0">
+                                    <div class="card-header">
+                                        <h5 class="card-title text-center">Tibia Meta Loot Split</h5>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <div class="panel panel-primary">
+                                            <div class="tab-menu-heading">
+                                                <div class="tabs-menu">
+                                                    <!-- Tabs -->
+                                                    <ul class="nav panel-tabs
+                                                        panel-danger">
+                                                        <li><a href="#lootsplit"
+                                                                class="active"
+                                                                data-bs-toggle="tab"><span><i
+                                                                        class="fe fe-dollar-sign"></i></span> LootSplit</a></li>
+                                                        <li><a href="#combatstats"
+                                                                data-bs-toggle="tab"><span><i class="fa-solid fa-hand-fist"></i></span> Hunt Stats</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body
+                                                tabs-menu-body">
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active"
+                                                        id="lootsplit">
+                                                        <form method="post">
+                                                            {% csrf_token %}
+                                                            <div
+                                                                class="form-group">
+                                                                <label
+                                                                    for="id_text_input">Paste
+                                                                    Your Party
+                                                                    Hunt here:</label>
+                                                                {{ form.text_input }}
+                                                            </div>
+                                                            <button class="btn
+                                                                btn-primary"
+                                                                type="submit">Submit</button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="tab-pane"
+                                                        id="combatstats">
+                                                        {% for player_name, player_data in players_data.items %}
+                                                        <div class="card mb-3">
+                                                        <div class="card-body">
+                                                        <span style="display: block; font-weight: bold; margin-bottom: 0.5em;">{{ player_name }}</span>
+                                                        <span style="display: inline-block; width: 10em; margin-right: 0.5em;">Damage: {{ player_data.damage }}</span>
+                                                        <div class="progress mb-2" style="display: inline-block; width: 80%;">
+                                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-red-1" role="progressbar" style="width: {{ player_data.percentage_damage }}%; min-width: 5em; font-weight: normal; background-color: red;" aria-valuenow="{{ player_data.percentage_damage }}" aria-valuemin="0" aria-valuemax="100">{{ player_data.percentage_damage|floatformat:1 }}%</div>
+                                                        </div>
+                                                        <span style="display: inline-block; width: 10em; margin-right: 0.5em;">Supplies: {{ player_data.supplies }}</span>
+                                                        <div class="progress mb-2" style="display: inline-block; width: 80%;">
+                                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-green-1" role="progressbar" style="width: {{ player_data.percentage_supplies }}%; min-width: 5em; font-weight: normal; background-color: green;" aria-valuenow="{{ player_data.percentage_supplies }}" aria-valuemin="0" aria-valuemax="100">{{ player_data.percentage_supplies|floatformat:1 }}%</div>
+                                                        </div>
+                                                        <span style="display: inline-block; width: 10em; margin-right: 0.5em;">Healing: {{ player_data.healing }}</span>
+                                                        <div class="progress mb-2" style="display: inline-block; width: 80%;">
+                                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-blue-1" role="progressbar" style="width: {{ player_data.percentage_healing }}%; min-width: 5em; font-weight: normal; background-color: blue;" aria-valuenow="{{ player_data.percentage_healing }}" aria-valuemin="0" aria-valuemax="100">{{ player_data.percentage_healing|floatformat:1 }}%</div>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        {% if payments %}
+                                        <h2>Payments:</h2>
+                                        <ul>
+                                            {% for payment in payments %}
+                                            <li>{{ payment.payment_details }}</li>
+                                            <br>
+                                            {% endfor %}
+                                        </ul>
+
+                                        <h2>Payments Transfers:</h2>
+                                        <ul>
+                                            {% for payment in payments %}
+                                            <li>{{ payment.payment_transfer }}
+                                                <button class="btn btn-primary
+                                                    btn-sm mb-1">Copy</button></li>
+                                            <br>
+                                            {% endfor %}
+                                        </ul>
+                                        <button id="Copyall" class="btn
+                                            btn-primary mb-1"
+                                            onclick="CopyAll()">Copy All</button>
+                                        {% endif %}
+
+                                        {% if error %}
+                                        <p class="error" style="color:red">
+                                            {{ error.error }}</p>
+                                        {% else %}
+                                        <p class="error" style="color:red">
+                                            {{ error.error }}</p>
+                                        {% endif %}
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Country-selector modal-->
+            {% include 'fragments/countrymodal.html' %}
+
+            <!-- Country-selector modal-->
+
+            <!-- FOOTER -->
+            {% include 'fragments/footer.html' %}
+            <!-- FOOTER CLOSED -->
+        </div>
+
+        <!--- Copy Button -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var copyButtons = document.getElementsByClassName('btn btn-primary btn-sm mb-1');
+        
+                for (var i = 0; i < copyButtons.length; i++) {
+                    copyButtons[i].addEventListener('click', function(event) {
+                        var textToCopy = event.target.parentNode.firstChild.textContent.trim();
+                        navigator.clipboard.writeText(textToCopy)
+                    });
+                }
+            });
+        </script>
+
+        <!--- Copy All Button -->
+        <script>
+            function CopyAll(){
+            const button = document.getElementById('Copyall');
+            var paymentDetails = document.querySelectorAll('.card-footer ul:first-of-type li');
+            var paymentTransfers = document.querySelectorAll('.card-footer ul:last-of-type li');
+            var paymentDetailsText = Array.from(paymentDetails).map(function(item) {
+              return item.textContent.trim();
+            }).join('\n');
+
+            var paymentTransfersText = Array.from(paymentTransfers).map(function(item) {
+              return item.textContent.trim().replace('Copy', '');
+            }).join('\n');
+
+            var allText = paymentDetailsText + '\n\n' + paymentTransfersText;
+              // Texto a ser copiado para a área de transferência
+              const textToCopy = allText;     
+              // Realiza a operação de escrita na área de transferência
+              navigator.clipboard.writeText(textToCopy);
+        }
+          </script>
+        <!-- BACK-TO-TOP -->
+        <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+        <!-- JQUERY JS -->
+        <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+        <!-- BOOTSTRAP JS -->
+        <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+        <!-- SIDE-MENU JS -->
+        <script src="{% static 'js/sidemenu/sidemenu.js' %}"></script>
+        <!-- TypeHead js -->
+        <!-- <script src="../assets/plugins/bootstrap5-typehead/autocomplete.js"></script>
+        <script src="../assets/js/typehead.js"></script> -->
+        <!-- SIDEBAR JS -->
+        <script src="{% static 'js/sidebar/sidebar.js' %}"></script>
+        <!--Perfect SCROLLBAR JS -->
+        <script src="{% static 'js/p-scroll/perfect-scrollbar.js' %}"></script>
+        <script src="{% static 'js/p-scroll/pscroll.js' %}"></script>
+        <script src="{% static 'js/p-scroll/pscroll-1.js' %}"></script>
+        <!-- Color Theme js -->
+        <script src="{% static 'js/themecolors/themeColors.js' %}"></script>
+        <!-- Sticky js -->
+        <script src="{% static 'js/sticky/sticky.js' %}"></script>
+
+        <!-- CUSTOM JS -->
+        <script src="{% static 'js/custom1/custom1.js' %}"></script>
+        <!-- Switcher js -->
+        <script src="{% static 'switcher/js/switcher.js' %}"></script>
+    </body>
+
+</html>

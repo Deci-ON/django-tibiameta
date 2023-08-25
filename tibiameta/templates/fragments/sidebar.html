@@ -1,0 +1,70 @@
+{% load static %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="sticky">
+    <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
+    <div class="app-sidebar">
+        <div class="side-header">
+            <a class="header-brand1" href="{% url 'index' %}">
+                <img src="{% static 'images/logo/tibiametalogo2beta.webp' %}" class="header-brand-img desktop-logo" alt="logo" height="80">
+                <img src="{% static 'images/logo/tibiametalogo2beta.webp' %}" class="header-brand-img toggle-logo" alt="logo" height="80">
+                <img src="{% static 'images/logo/tibiametalogo2beta.webp' %}" class="header-brand-img light-logo" alt="logo" height="80">
+                <img src="{% static 'images/logo/tibiametalogo2beta.webp' %}" class="header-brand-img light-logo1" alt="logo" height="80">
+            </a>
+            <!-- LOGO -->
+        </div>
+        <div class="main-sidemenu">
+            <div class="slide-left disabled" id="slide-left"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"/></svg></div>
+                <ul class="side-menu">
+                    <li class="sub-category">
+                        <h3>Main</h3>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item has-link" data-bs-toggle="slide" href="{% url 'index' %}"><i class="side-menu__icon fe fe-home"></i><span class="side-menu__label">Home</span></a>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item has-link" data-bs-toggle="slide" href="{% url 'blog' %}"><i class="side-menu__icon fa-solid fa-blog"></i><span class="side-menu__label">Blog</span></a>
+                    </li>
+                    <li class="sub-category">
+                        <h3>Tools</h3>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'lootsplit' %}"><i class="side-menu__icon fe fe-dollar-sign"></i><span class="side-menu__label">Loot Split</span></a>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'skillwheel' %}"><i class="side-menu__icon fa-solid fa-tree"></i><span class="side-menu__label">Skill Wheel</span></a>
+                    </li>
+                    <li class="sub-category">
+                        <h3>Calculators</h3>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i class="side-menu__icon fa-solid fa-calculator"></i><span class="side-menu__label">Calculators</span><i class="angle fe fe-chevron-right"></i></a>
+                        <ul class="slide-menu">
+                            <li class="side-menu-label1"><a href="javascript:void(0)">Party Level Calculator</a></li>
+                            <li><a href="{% url 'partylevelcalculator' %}" class="slide-item">Party Level Calculator</a></li>
+                            <li class="side-menu-label1"><a href="javascript:void(0)">Exp Calculator</a></li>
+                            <li><a href="{% url 'expcalculator' %}" class="slide-item">Exp Calculator</a></li>
+                            <li class="side-menu-label1"><a href="javascript:void(0)">Exercise Weapon Calculator</a></li>
+                            <li><a href="{% url 'exercisecalculator' %}" class="slide-item">Exercise Weapon Calculator</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li class="sub-category">
+                        <h3>Highscores</h3>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i class="side-menu__icon fa-solid fa-arrow-up"></i><span class="side-menu__label">Highscores</span><i class="angle fe fe-chevron-right"></i></a>
+                        <ul class="slide-menu">
+                            <li class="side-menu-label1"><a href="javascript:void(0)">Top 100 Highscores</a></li>
+                            <li><a href="{% url 'top100exp' %}" class="slide-item">Top 100 Highscores</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </ul>
+            <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"><path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"/></svg></div>
+        </div>
+    </div>
+    <!--/APP-SIDEBAR-->
+</div>

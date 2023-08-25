@@ -1,0 +1,204 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" dir="ltr">
+
+
+
+    <head>
+
+        <!-- META DATA -->
+        <meta charset="UTF-8">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0,
+            user-scalable=0'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="Tibia Meta - Powerfull tools and infos
+            about Tibia Characters">
+        <meta name="author" content="Matheus Decion">
+        <meta name="keywords" content="tibia, tibiameta, tibia meta, Tibia Meta,
+            tools, dashboards, tibia gold, tibia character">
+
+        <!-- FAVICON -->
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo/favicon.ico' %}" />
+
+        <!-- TITLE -->
+        <title>Tibia Meta</title>
+
+        <!-- BOOTSTRAP CSS -->
+        <link id="style" href="{% static 'css/bootstrap/bootstrap.min.css' %}"
+            rel="stylesheet" />
+
+        <!-- STYLE CSS -->
+        <link href="{% static 'css/styles/style.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/styles/dark-style.css' %}" rel="stylesheet"
+            />
+        <link href="{% static 'css/styles/transparent-style.css' %}"
+            rel="stylesheet">
+        <link href="{% static 'css/styles/skin-modes.css' %}" rel="stylesheet"
+            />
+
+        <!--- FONT-ICONS CSS -->
+        <link href="{% static 'css/styles/icons.css' %}" rel="stylesheet" />
+        <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <!-- COLOR SKIN CSS -->
+        <link id="theme" rel="stylesheet" type="text/css" media="all"
+            href="{%static 'colors/color1.css' %}" />
+
+        <!-- INTERNAL Switcher css -->
+        <link href="{% static 'switcher/css/switcher.css' %}" rel="stylesheet"/>
+        <link href="{% static 'switcher/demo.css' %}" rel="stylesheet" />
+    </head>
+
+    <body class="app sidebar-mini ltr dark-mode">
+        {% include 'fragments/switcher.html' %}
+        <!-- GLOBAL-LOADER -->
+        <div id="global-loader">
+            <div class="spinner-border text-primary loader-img" role="status"
+                style="width: 5rem; height: 5rem">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div class="page">
+            <div class="page-main">
+                <!-- app-Header -->
+                {% include 'fragments/header2.html' %}
+                <!-- /app-Header -->
+
+                <!--APP-SIDEBAR-->
+                {% include 'fragments/sidebar.html' %}
+                <!--/APP-SIDEBAR-->
+                <div class="main-content app-content mt-0">
+                    <div class="side-app">
+                        <div class="row mt-0">
+                            <div class="col-xl-6 col-sm-6 col-md-6 mt-5"
+                                style="margin:
+                                auto;">
+
+                                <div class="card border p-0">
+                                    <div class="card-header">
+                                        <h5 class="card-title text-center">Experience Calculator</h5>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <form method="post">
+                                            Here you can calculate how many experience you need to reach the desired level.<br>
+                                            <br>
+                                            {% csrf_token %}
+                                            {{ form.as_p }}
+                                            <button class="btn
+                                            btn-primary"
+                                            type="submit" id="submitBtn">Submit</button>                                        
+                                        </form>
+                                    </div>
+                                    
+                                    <div class="card-footer text-center">
+                                        {% if show_messages %}
+                                        {% if ini_exp %}
+                                        You need {{ calc }} experience points to reach to level {{ desired_level }}.
+                                        <br>
+                                        Current Exp: {{ ini_exp }}
+                                        <br>
+                                        Desired Exp: {{ des_exp }} - > Level: {{ desired_level }}
+                                        {% else %}
+                                        You need {{ calc }} experience points to reach from level {{ level }} to {{ desired_level }}.
+                                        <br>
+                                        Level Exp: {{ ini_exp }} - > Level: {{ level }}
+                                        <br>
+                                        Desired Exp: {{ des_exp }} - > Level: {{ desired_level }}
+                                        {% endif %}
+                                        {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Country-selector modal-->
+            {% include 'fragments/countrymodal.html' %}
+
+            <!-- Country-selector modal-->
+
+            <!-- FOOTER -->
+            {% include 'fragments/footer.html' %}
+            <!-- FOOTER CLOSED -->
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+              // Obtenha os campos do formulário
+              var field1 = $('#id_field1');
+              var opcional = $('#id_opcional');
+              var desiredLevel = $('#id_field2');
+              var submitBtn = $('#submitBtn');
+            
+              // Defina a função para controlar a habilitação/desabilitação dos campos e do botão de submit
+              function handleFields() {
+                if (field1.val() !== "") {
+                  // Se o campo initial_level estiver preenchido, desabilite o campo opcional
+                  opcional.prop('disabled', true);
+                } else if (opcional.val() !== "") {
+                  // Se o campo opcional estiver preenchido, desabilite o campo initial_level
+                  field1.prop('disabled', true);
+                } else {
+                  // Caso contrário, ambos os campos estão vazios, habilitar ambos
+                  field1.prop('disabled', false);
+                  opcional.prop('disabled', false);
+                }
+            
+                // Verifique se o desired_level está preenchido
+                if (desiredLevel.val() !== "") {
+                  // Se o desired_level estiver preenchido, verifique se pelo menos um dos campos
+                  // initial_level ou opcional também está preenchido
+                  if (field1.val() === "" && opcional.val() === "") {
+                    // Se nenhum dos campos estiver preenchido, desabilite o botão de submit
+                    submitBtn.prop('disabled', true);
+                  } else {
+                    // Caso contrário, pelo menos um dos campos está preenchido, habilite o botão de submit
+                    submitBtn.prop('disabled', false);
+                  }
+                } else {
+                  // Se o desired_level não estiver preenchido, desabilite o botão de submit
+                  submitBtn.prop('disabled', true);
+                }
+              }
+            
+              // Chame a função inicialmente para configurar o estado dos campos e do botão de submit
+              handleFields();
+            
+              // Vincule o evento 'change' nos campos para atualizar o estado dos campos conforme o usuário interage
+              field1.change(handleFields);
+              opcional.change(handleFields);
+              desiredLevel.change(handleFields);
+            });
+            </script>
+        <!-- BACK-TO-TOP -->
+        <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+        <!-- JQUERY JS -->
+        <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+        <!-- BOOTSTRAP JS -->
+        <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+        <!-- SIDE-MENU JS -->
+        <script src="{% static 'js/sidemenu/sidemenu.js' %}"></script>
+        <!-- TypeHead js -->
+        <!-- <script src="../assets/plugins/bootstrap5-typehead/autocomplete.js"></script>
+        <script src="../assets/js/typehead.js"></script> -->
+        <!-- SIDEBAR JS -->
+        <script src="{% static 'js/sidebar/sidebar.js' %}"></script>
+        <!--Perfect SCROLLBAR JS -->
+        <script src="{% static 'js/p-scroll/perfect-scrollbar.js' %}"></script>
+        <script src="{% static 'js/p-scroll/pscroll.js' %}"></script>
+        <script src="{% static 'js/p-scroll/pscroll-1.js' %}"></script>
+        <!-- Color Theme js -->
+        <script src="{% static 'js/themecolors/themeColors.js' %}"></script>
+        <!-- Sticky js -->
+        <script src="{% static 'js/sticky/sticky.js' %}"></script>
+
+        <!-- CUSTOM JS -->
+        <script src="{% static 'js/custom1/custom1.js' %}"></script>
+        <!-- Switcher js -->
+        <script src="{% static 'switcher/js/switcher.js' %}"></script>
+    </body>
+
+</html>

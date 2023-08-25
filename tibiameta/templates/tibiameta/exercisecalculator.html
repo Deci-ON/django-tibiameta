@@ -1,0 +1,436 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" dir="ltr">
+
+    <head>
+
+        <!-- META DATA -->
+        <meta charset="UTF-8">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0,user-scalable=0'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="Tibia Meta - Powerfull tools and infos about Tibia Characters">
+        <meta name="author" content="Matheus Decion">
+        <meta name="keywords" content="tibia, tibiameta, tibia meta, Tibia Meta,tools, dashboards, tibia gold, tibia character">
+
+        <!-- FAVICON -->
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo/favicon.ico' %}" />
+
+        <!-- TITLE -->
+        <title>Tibia Meta</title>
+
+        <!-- BOOTSTRAP CSS -->
+        <link id="style" href="{% static 'css/bootstrap/bootstrap.min.css' %}"
+            rel="stylesheet" />
+
+        <!-- STYLE CSS -->
+        <link href="{% static 'css/styles/style.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/styles/dark-style.css' %}" rel="stylesheet"
+            />
+        <link href="{% static 'css/styles/transparent-style.css' %}"
+            rel="stylesheet">
+        <link href="{% static 'css/styles/skin-modes.css' %}" rel="stylesheet"
+            />
+
+        <!--- FONT-ICONS CSS -->
+        <link href="{% static 'css/styles/icons.css' %}" rel="stylesheet" />
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <!-- COLOR SKIN CSS -->
+        <link id="theme" rel="stylesheet" type="text/css" media="all"
+            href="{%static 'colors/color1.css' %}" />
+
+        <!-- INTERNAL Switcher css -->
+        <link href="{% static 'switcher/css/switcher.css' %}" rel="stylesheet"/>
+        <link href="{% static 'switcher/demo.css' %}" rel="stylesheet" />
+        <script src="https://unpkg.com/htmx.org@1.9.4"></script>
+
+    </head>
+    <body class="app sidebar-mini ltr dark-mode">
+        {% include 'fragments/switcher.html' %}
+        <!-- GLOBAL-LOADER -->
+        <div id="global-loader">
+        <div class="spinner-border text-primary loader-img" role="status" style="width: 5rem; height: 5rem">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+        <div class="page">
+            <div class="page-main">
+                <!-- app-Header -->
+                {% include 'fragments/header2.html' %}
+                <!-- /app-Header -->
+
+                <!--APP-SIDEBAR-->
+                {% include 'fragments/sidebar.html' %}
+                <!--/APP-SIDEBAR-->
+                <div class="main-content app-content mt-5">
+                    <div class="side-app">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="row align-items-center"
+                                            style="width: 100%;">
+                                            <div class="col-md-12 col-lg-12">
+                                                <h3 class="card-title
+                                                    text-center">Exercise Weapon
+                                                    Calculator</h3>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="col-sm-12 col-md-12
+                                            col-lg-12 col-xl-12">
+                                            <form method="post" class="form
+                                                needs-validation was-validated"
+                                                id="form_calc" >
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-6
+                                                        col-md-6 col-lg-3
+                                                        col-xl-3">
+                                                        <div class="form-group">
+                                                            <label for="{{ form.skill.id_for_label }}">Vocation</label>
+                                                            <div id="vocation"
+                                                                style="text-align:
+                                                                center;">{{ form.vocation }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6
+                                                        col-md-6 col-lg-3
+                                                        col-xl-3">
+                                                        <div class="form-group">
+                                                            <label for="{{ form.skill.id_for_label }}">Skill</label>
+                                                            <div id="skill"
+                                                                style="text-align:
+                                                                center;">{{ form.skills }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6
+                                                        col-md-6 col-lg-3
+                                                        col-xl-3">
+                                                        <div class="form-group">
+                                                            <label for="{{ form.current_skill.id_for_label }}">Current
+                                                                Skill</label>
+                                                            <div
+                                                                style="text-align:
+                                                                center;">{{ form.current_skill }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6
+                                                        col-md-6 col-lg-3
+                                                        col-xl-3">
+                                                        <div class="form-group">
+                                                            <label for="{{ form.desired_skill.id_for_label }}">Desired
+                                                                Skill</label>
+                                                            <div
+                                                                style="text-align:
+                                                                center;">{{ form.desired_skill }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-6
+                                                        col-md-6 col-lg-3
+                                                        col-xl-3">
+                                                        <div class="form-group">
+                                                            <label for="{{ form.percent_skill.id_for_label }}">% to next
+                                                                Skill</label>
+                                                            <div
+                                                                style="text-align:
+                                                                center;">{{ form.percent_skill }}</div>
+                                                        </div>
+                                                        <div class="progress"
+                                                            style="height:
+                                                            5px;">
+                                                            <div id="barra"
+                                                                class="progress-bar
+                                                                bg-success"
+                                                                role="progressbar"
+                                                                style="background:
+                                                                #01ff1d
+                                                                !important;"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6
+                                                        col-md-6 col-lg-3
+                                                        col-xl-3">
+                                                        <div class="form-group">
+                                                            <label for="{{ form.loyalty.id_for_label }}">Loyalty</label>
+                                                            <div
+                                                                style="text-align:
+                                                                center;">{{ form.loyalty }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6
+                                                        col-md-6 col-lg-3
+                                                        col-xl-3 pt-6">
+                                                        <div
+                                                            class="custom-controls-stacked">
+                                                            <label
+                                                                class="custom-control
+                                                                custom-checkbox-md"
+                                                                for="{{ form.double_event.id_for_label }}">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    class="custom-control-input"
+                                                                    name="{{ form.double_event.name }}" id="{{ form.double_event.id_for_label }}">
+                                                                <span
+                                                                    class="custom-control-label">Double
+                                                                    Event</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6
+                                                        col-md-6 col-lg-3
+                                                        col-xl-3 pt-6">
+                                                        <div
+                                                            class="custom-controls-stacked">
+                                                            <label
+                                                                class="custom-control
+                                                                custom-checkbox-md"
+                                                                for="{{ form.private_dummy.id_for_label }}">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    class="custom-control-input"
+                                                                    name="{{ form.private_dummy.name }}" id="{{ form.private_dummy.id_for_label }}">
+                                                                <span
+                                                                    class="custom-control-label">Private Dummy</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row text-center
+                                                justify-content-center pt-6">
+                                                <span class="text-center
+                                                    justify-content-center"
+                                                    style="text-align: center;">
+                                                    You don't need choose the
+                                                    weapon, we bring you all
+                                                    options! (Beware with
+                                                    training shield, we are
+                                                    testing the formula).</span>
+                                                <span class="text-center
+                                                    justify-content-center"
+                                                    style="text-align: center;">
+                                                    TIP: If Tibia Coin costs
+                                                    less than 10,5k in your
+                                                    server, buy Exercise Weapons
+                                                    from the store.</span>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="row text-center
+                                                justify-content-center">
+                                                <button type="submit" class="btn
+                                                    btn-primary" style="width:
+                                                    100px;" onclick="calc()" id="submit" disabled>Submit</button>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12
+                                col-xl-12">
+                                <div class="row" id="result">
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <p id="error" s style="color: red; text-align:center"></p>
+                    </div>
+                </div>
+
+            </div>
+            <!-- FOOTER -->
+            {% include 'fragments/footer.html' %}
+            <!-- FOOTER CLOSED -->
+        </div>
+
+        <script>
+    function percent(valor) {
+        if(valor > 100 || valor.length > 5 ){
+            document.getElementById('barra').style.width = '100%';
+            document.getElementById('id_percent_skill').value = '100';
+        
+        }else if(valor == '' || valor.substr(0,1) == '-') {
+            document.getElementById('barra').style.width = '0%';
+            document.getElementById('id_percent_skill').value = '';
+
+        }else{
+            document.getElementById('barra').style.width = 100 - valor + '%'; 
+        }
+    }
+    
+</script>
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    function calc(){
+        document.getElementById('result').innerHTML='<div class="dimmer active"><div class="lds-ring"></div></div>'
+            const form = document.getElementById("form_calc");
+            const elements = form.elements;
+            const formData = {};
+
+            for (let i = 0; i < elements.length; i++) {
+                const element = elements[i];
+                if (element.tagName == "INPUT" || element.tagName == "SELECT") {
+                    if(element.type == 'checkbox'){
+                         
+                        formData[element.name] = element.checked;
+
+                    }else{
+                        formData[element.name] = element.value;
+                    }
+                   
+                }
+            }
+            const jsonResult = JSON.stringify(formData, null, 2);
+
+        $.ajax({
+            type: "POST",
+            url: "exerciseresult/",
+            dataType: 'json',
+            data: jsonResult,
+            headers: {
+                "X-CSRFToken": csrftoken,
+                "X-Requested-With": "XMLHttpRequest"
+
+            },
+            // on success
+            success: function (response) {
+                var dataList = response.data;
+                html = '';
+                for(int = 0; int < dataList.length; int++){
+
+                html = html +  
+                '<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">'+
+                    '<div class="card pt-2 px-5 reveal revealrotate carregar1">'+
+                        '<div class="card-header">'+
+                            '<h3 class="card-title text-center">'+ dataList[int]['weapon_type'] +'</h3>'+
+                        '</div>'+
+                        '<div class="card-body">'+
+                            '<div class="row justify-content-center pb-5">'+
+                                    '<p><img src="{% static "images/exercise_weapons/" %}'+ dataList[int]['weapon_type'] +'_'+ dataList[int]['selected_skill'] + '.gif" id = "{{ result.weapon_type }}" name = "{{ result.selected_skill }}" alt="{{ result.selected_skill }}" style="min-width: 10%; max-width: 15%;"><b>Weapons Needed:</b> <b><span style="color: rgb(255, 191, 30);">'+ dataList[int]['weapons_needed'] + '</span></b></p>'+
+                                    '<p><img src="{% static "images/media/Watch.gif" %}" alt="Watch" style="max-width: 15%;"><b class="watch px-2">Time Need:</b> '+ dataList[int]['dias'] + ' days, '+ dataList[int]['horas'] + ' hours, {{ result.minutos }} minutes and '+ dataList[int]['segundos'] + ' seconds.</p>'+
+                                    '<p><img src="{% static "images/media/Gold_Coin.gif" %}" alt="Gold Coins" style="max-width: 15%;"><b class="golds px-2">Gold Spend:</b><span style="color: rgb(4, 241, 0);">'+ dataList[int]['gold_spend'] + 'KK</span></p>'+
+                                    '<p><img src="{% static "images/media/Tibia_Coin.gif" %}" alt="Tibia Coins" style="max-width: 15%;"><b class="coins px-2">Tibia Coins Spend:</b> <b><span style="color: rgb(255, 136, 0);">'+ dataList[int]['coins_spend'] + ' </span> </b></p>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="card-footer">'+
+                        '</div>'+
+                   '</div>'+
+                '</div>';
+                }
+                document.getElementById('result').innerHTML = html;
+                load();
+            },
+        });
+
+
+    }
+</script>
+<script>
+    function carregar(valor) {
+
+        var elementosCarregar = document.getElementsByClassName("carregar" + valor);
+
+        for (var i = 0; i < elementosCarregar.length; i++) {
+            elementosCarregar[i].classList.add("active");
+        }
+    }
+    function load() {
+        setTimeout(function() {
+            carregar(1);
+        }, 150);
+    }
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var campo1 = document.getElementById("id_current_skill");
+        var campo2 = document.getElementById("id_desired_skill");
+        var mensagemErro = document.getElementById("error");
+        var botaoSubmit = document.getElementById("submit");
+
+        campo1.addEventListener("input", validarCampos);
+        campo2.addEventListener("input", validarCampos);
+
+        function validarCampos() {
+            var valorCampo1 = parseFloat(campo1.value);
+            var valorCampo2 = parseFloat(campo2.value);
+
+            if (valorCampo1 > valorCampo2) {
+                mensagemErro.innerHTML = "Desired Skill cannot be lower than Current Skill.";
+                botaoSubmit.disabled = true;
+            } else {
+                mensagemErro.innerHTML = "";
+                botaoSubmit.disabled = false;
+            }
+        }
+    });
+</script>
+
+</html>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- BACK-TO-TOP -->
+        <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+        <!-- JQUERY JS -->
+        <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+        <!-- BOOTSTRAP JS -->
+        <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+        <!-- SIDE-MENU JS -->
+        <script src="{% static 'js/sidemenu/sidemenu.js' %}"></script>
+        <!-- TypeHead js -->
+        <!-- <script src="../assets/plugins/bootstrap5-typehead/autocomplete.js"></script>
+   <script src="../assets/js/typehead.js"></script> -->
+        <!-- SIDEBAR JS -->
+        <script src="{% static 'js/sidebar/sidebar.js' %}"></script>
+        <!--Perfect SCROLLBAR JS -->
+        <script src="{% static 'js/p-scroll/perfect-scrollbar.js' %}"></script>
+        <script src="{% static 'js/p-scroll/pscroll.js' %}"></script>
+        <script src="{% static 'js/p-scroll/pscroll-1.js' %}"></script>
+        <!-- Color Theme js -->
+        <script src="{% static 'js/themecolors/themeColors.js' %}"></script>
+        <!-- Sticky js -->
+        <script src="{% static 'js/sticky/sticky.js' %}"></script>
+
+        <!-- CUSTOM JS -->
+        <script src="{% static 'js/custom1/custom1.js' %}"></script>
+
+        <script src="{% static 'js/datatable/datatable.js' %}"></script>
+
+        <!-- Switcher js -->
+        <script src="{% static 'switcher/js/switcher.js' %}"></script>
+        <!-- Inclua o JavaScript do Flatpickr -->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <!-- Data Tables -->
+        <script src="{% static 'select2/select2.full.min.js' %}"></script>
+        <script src="{% static 'datatable/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'datatable/js/dataTables.bootstrap5.js' %}"></script>
+        <script src="{% static 'datatable/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'datatable/js/buttons.bootstrap5.min.js' %}"></script>
+        <script src="{% static 'datatable/js/jszip.min.js' %}"></script>
+        <script src="{% static 'datatable/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'datatable/js/buttons.print.min.js' %}"></script>
+        <script src="{% static 'datatable/js/buttons.colVis.min.js' %}"></script>
+        <script src="{% static 'datatable/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'datatable/responsive.bootstrap5.min.js' %}"></script>
+        <script src="{% static 'tabledata/table-data.js' %}"></script>
+
+    </body>
+
+</html>
