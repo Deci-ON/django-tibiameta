@@ -211,7 +211,7 @@ def exerciseresult(request):
         selected_loyalty = loyalt[selected_loyalty]
         c_skill = int(json_data['current_skill'])
         d_skill = int(json_data['desired_skill'])
-        c_percent = int(json_data['percent_skill'])
+        c_percent = float(json_data['percent_skill'])
         # Your parameter values (a, b, c_skill, etc.) here
         calculated_results = []  # Initialize the list to store results
         
