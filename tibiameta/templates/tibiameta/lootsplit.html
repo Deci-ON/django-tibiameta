@@ -48,6 +48,8 @@
         <!-- INTERNAL Switcher css -->
         <link href="{% static 'switcher/css/switcher.css' %}" rel="stylesheet"/>
         <link href="{% static 'switcher/demo.css' %}" rel="stylesheet" />
+        <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
+
     </head>
 
     <body class="app sidebar-mini ltr dark-mode">
@@ -72,101 +74,28 @@
                 <div class="main-content app-content mt-0">
                     <div class="side-app">
                         <div class="row mt-0">
-                            <div class="col-xl-6 col-sm-6 col-md-6 mt-5"
+                            <div class="col-xl-6 col-sm-6 col-md-6 col-lg-6 mt-5"
                                 style="margin:
                                 auto;">
 
-                                <div class="card border p-0">
+                                <div class="card">
                                     <div class="card-header">
                                         <h5 class="card-title text-center">Tibia Meta Loot Split</h5>
                                     </div>
-                                    <div class="card-body text-center">
-                                        <div class="panel panel-primary">
-                                            <div class="tab-menu-heading">
-                                                <div class="tabs-menu">
-                                                    <!-- Tabs -->
-                                                    <ul class="nav panel-tabs
-                                                        panel-danger">
-                                                        <li><a href="#lootsplit"
-                                                                class="active"
-                                                                data-bs-toggle="tab"><span><i
-                                                                        class="fe fe-dollar-sign"></i></span> LootSplit</a></li>
-                                                        <li><a href="#combatstats"
-                                                                data-bs-toggle="tab"><span><i class="fa-solid fa-hand-fist"></i></span> Hunt Stats</a></li>
-                                                    </ul>
-                                                </div>
+                                    <div class="card-body text-center" id="card_left">
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label
+                                                    for="id_text_input">Paste
+                                                    Your Party
+                                                    Hunt here:</label>
+                                                {{ form.text_input }}
                                             </div>
-                                            <div class="panel-body
-                                                tabs-menu-body">
-                                                <div class="tab-content">
-                                                    <div class="tab-pane active"
-                                                        id="lootsplit">
-                                                        <form method="post">
-                                                            {% csrf_token %}
-                                                            <div
-                                                                class="form-group">
-                                                                <label
-                                                                    for="id_text_input">Paste
-                                                                    Your Party
-                                                                    Hunt here:</label>
-                                                                {{ form.text_input }}
-                                                            </div>
-                                                            <button class="btn
-                                                                btn-primary"
-                                                                type="submit">Submit</button>
-                                                        </form>
-                                                    </div>
-                                                    <div class="tab-pane"
-                                                        id="combatstats">
-                                                        {% for player_name, player_data in players_data.items %}
-                                                        <div class="card mb-3">
-                                                        <div class="card-body">
-                                                        <span style="display: block; font-weight: bold; margin-bottom: 0.5em;">{{ player_name }}</span>
-                                                        <span style="display: inline-block; width: 10em; margin-right: 0.5em;">Damage: {{ player_data.damage }}</span>
-                                                        <div class="progress mb-2" style="display: inline-block; width: 80%;">
-                                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-red-1" role="progressbar" style="width: {{ player_data.percentage_damage }}%; min-width: 5em; font-weight: normal; background-color: red;" aria-valuenow="{{ player_data.percentage_damage }}" aria-valuemin="0" aria-valuemax="100">{{ player_data.percentage_damage|floatformat:1 }}%</div>
-                                                        </div>
-                                                        <span style="display: inline-block; width: 10em; margin-right: 0.5em;">Supplies: {{ player_data.supplies }}</span>
-                                                        <div class="progress mb-2" style="display: inline-block; width: 80%;">
-                                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-green-1" role="progressbar" style="width: {{ player_data.percentage_supplies }}%; min-width: 5em; font-weight: normal; background-color: green;" aria-valuenow="{{ player_data.percentage_supplies }}" aria-valuemin="0" aria-valuemax="100">{{ player_data.percentage_supplies|floatformat:1 }}%</div>
-                                                        </div>
-                                                        <span style="display: inline-block; width: 10em; margin-right: 0.5em;">Healing: {{ player_data.healing }}</span>
-                                                        <div class="progress mb-2" style="display: inline-block; width: 80%;">
-                                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-blue-1" role="progressbar" style="width: {{ player_data.percentage_healing }}%; min-width: 5em; font-weight: normal; background-color: blue;" aria-valuenow="{{ player_data.percentage_healing }}" aria-valuemin="0" aria-valuemax="100">{{ player_data.percentage_healing|floatformat:1 }}%</div>
-                                                        </div>
-                                                        </div>
-                                                        </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        {% if payments %}
-                                        <h2>Payments:</h2>
-                                        <ul>
-                                            {% for payment in payments %}
-                                            <li>{{ payment.payment_details }}</li>
-                                            <br>
-                                            {% endfor %}
-                                        </ul>
-
-                                        <h2>Payments Transfers:</h2>
-                                        <ul>
-                                            {% for payment in payments %}
-                                            <li>{{ payment.payment_transfer }}
-                                                <button class="btn btn-primary
-                                                    btn-sm mb-1">Copy</button></li>
-                                            <br>
-                                            {% endfor %}
-                                        </ul>
-                                        <button id="Copyall" class="btn
-                                            btn-primary mb-1"
-                                            onclick="CopyAll()">Copy All</button>
-                                        {% endif %}
-
+                                            <button class="btn
+                                                btn-primary"
+                                                type="submit">Submit</button>
+                                        </form>
                                         {% if error %}
                                         <p class="error" style="color:red">
                                             {{ error.error }}</p>
@@ -175,14 +104,94 @@
                                             {{ error.error }}</p>
                                         {% endif %}
 
+                                    </div>
 
+                                    <div class="card-footer text-center">
+                                    </div>
+                                </div>
+                            </div>
+                            {% if payments %}
+                            <div class="col-xl-6 col-sm-6 col-md-6 col-lg-6 mt-5" style="margin: auto;">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Payments and Transfers</h3>
+                                    </div>
+                                    <div class="card-body text-center" id="card_right">
+                                        {% for payment in payments %}
+                                        {{ payment.payment_details }}                                       
+                                        <br class="mb-3">
+
+                                    {% endfor %}
+
+                                    {% for payment in payments %}
+                                    {{ payment.payment_transfer }}
+                                        <button class="btn btn-primary btn-sm mb-1">Copy</button>
+                                        <br>
+
+                                {% endfor %}
+                                <br class="mb-1">
+
+                                <button id="Copyall" class="btn btn-primary mb-1" onclick="CopyAll()">Copy All</button>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+
+                        {% if payments %}
+
+                        <div class=row>
+                            <div class="col-xl-12 col-sm-12 col-md-12 col-lg-12" style="margin: auto;">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Hunt Impact</h3> 
+                                        
+                                    </div>
+                                    <div class="card-body">
+
+                                        {% for player_name, player_data in players_data.items %}
+                                        <div class="card mt-3">
+                                        <div class="card-body">
+                                        <span style="display: block; font-weight: bold; margin-bottom: 0.5em;">{{ player_name }}</span>
+                                        <span style="display: inline-block; width: 10em; margin-right: 0.5em;">Damage: {{ player_data.damage }}</span>
+                                        <div class="progress mt-2" style="display: inline-block; width: 80%;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-red-1" role="progressbar" style="width: {{ player_data.percentage_damage }}%; min-width: 5em; font-weight: normal; background-color: red;" aria-valuenow="{{ player_data.percentage_damage }}" aria-valuemin="0" aria-valuemax="100">{{ player_data.percentage_damage|floatformat:1 }}%</div>
+                                        </div>
+                                        <span style="display: inline-block; width: 10em; margin-right: 0.5em;">Supplies: {{ player_data.supplies }}</span>
+                                        <div class="progress mt-2" style="display: inline-block; width: 80%;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-green-1" role="progressbar" style="width: {{ player_data.percentage_supplies }}%; min-width: 5em; font-weight: normal; background-color: green;" aria-valuenow="{{ player_data.percentage_supplies }}" aria-valuemin="0" aria-valuemax="100">{{ player_data.percentage_supplies|floatformat:1 }}%</div>
+                                        </div>
+                                        <span style="display: inline-block; width: 10em; margin-right: 0.5em;">Healing: {{ player_data.healing }}</span>
+                                        <div class="progress mt-2" style="display: inline-block; width: 80%;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-blue-1" role="progressbar" style="width: {{ player_data.percentage_healing }}%; min-width: 5em; font-weight: normal; background-color: blue;" aria-valuenow="{{ player_data.percentage_healing }}" aria-valuemin="0" aria-valuemax="100">{{ player_data.percentage_healing|floatformat:1 }}%</div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
+
+                        {% if payments %}
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body" style="height: 400px; width:100%">
+                                        <div id="graph" class="chartsh" style="height: 100%; width:100%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+
             <!-- Country-selector modal-->
             {% include 'fragments/countrymodal.html' %}
 
@@ -204,6 +213,23 @@
                         navigator.clipboard.writeText(textToCopy)
                     });
                 }
+            });
+            function sizeOfThings() {
+                modal_e = document.getElementById("card_left").offsetHeight;
+                modal_d = document.getElementById("card_right");
+
+                if(window.innerWidth > 770){
+
+                    modal_d.style.height = modal_e + 'px';
+
+                }else{
+                    modal_d.style.height = '100%'
+                }
+            };
+            sizeOfThings();
+
+            window.addEventListener('resize', function() {
+                sizeOfThings();
             });
         </script>
 
@@ -228,6 +254,151 @@
               navigator.clipboard.writeText(textToCopy);
         }
           </script>
+
+
+                <!-- Echarts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+    <script>
+    var chartDom = document.getElementById('graph');
+    var myChart = echarts.init(chartDom);
+    var player_list = JSON.parse('{{ player_list|safe }}')
+    var damage_list = JSON.parse('{{ damage_list|safe }}')
+    var supplies_list = JSON.parse('{{ supplies_list|safe }}')
+    var healing_list = JSON.parse('{{ healing_list|safe }}')
+
+          option = {
+            title: {
+              text: 'Player Impact per Second',
+              textStyle:{
+                color:'#979797',
+              }
+            },
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                type: 'shadow'
+              }
+            },
+            legend: {
+              data: ['Damage per Second','Supplies per Second', 'Healing per Second'],
+              textStyle:{
+                color:'#979797',
+                
+              }
+            },
+            grid: {
+              left: 100
+            },
+            toolbox: {
+              show: true,
+              feature: {
+                saveAsImage: {}
+              }
+            },
+            xAxis: {
+              type: 'value',
+              name: 'Values',
+              axisLabel: {
+                formatter: '{value}',
+                color: '#979797',
+              }
+            },
+            yAxis: {
+              type: 'category',
+              inverse: true,
+              data: player_list,
+              axisLabel: {
+                formatter: function (value) {
+                    // Verifica se há mais de um espaço na string
+                    if (value.split(' ').length > 1) {
+                        var formattedValue = value.replace(/\s/g, '\n');
+                    } else {
+                        // Se houver apenas um espaço, aplique a formatação padrão
+                        var formattedValue = value;
+                    }
+
+                    return formattedValue;
+                },
+                color: '#979797',
+                margin: 20,
+              }
+            },
+            series: [
+              {
+                name: 'Damage per Second',
+                type: 'bar',
+                data: damage_list,
+                label: {show: true, color: 'white'},
+                itemStyle: {
+                    opacity: 0.8,
+                    color: new echarts.graphic.LinearGradient(1, 0, 0, 1, [ 
+                    {
+                        offset: 0,
+                        color: 'rgb(255, 0, 0)'
+                      },
+                      {
+                        offset: 1,
+                        color: 'rgb(255, 101, 0)'
+                      }
+                    ])
+                  },                
+              },
+              {
+                name: 'Supplies per Second',
+                type: 'bar',
+                label: {show: true, color: 'white'},
+                data: supplies_list,
+                itemStyle: {
+                    opacity: 0.8,
+                    color: new echarts.graphic.LinearGradient(1, 0, 0, 1, [ 
+                    {
+                        offset: 0,
+                        color: '#1A2678'
+                      },
+                      {
+                        offset: 1,
+                        color: 'rgb(1, 199, 248)'
+                      },
+                    ])
+                  },                
+              },
+              {
+                name: 'Healing per Second',
+                type: 'bar',
+                label: {show: true, color: 'white'},
+                data: healing_list,
+                itemStyle: {
+                    opacity: 0.8,
+                    color: new echarts.graphic.LinearGradient(1, 0, 0, 1, [ 
+                    {
+                        offset: 0,
+                        color: 'rgb(5, 166, 45)'
+                      },
+                      {
+                        offset: 1,
+                        color: 'rgb(48, 217, 73)'
+                      },
+                    ])
+                  },                
+              }
+            ]
+          };
+    myChart.setOption(option);
+    window.onresize = function() {
+        myChart.resize();
+      };
+    function customAxisLabelFormatter(value) {
+    // Verifica se há mais de um espaço na string
+    if (value.split(' ').length > 1) {
+        var formattedValue = value.replace(/\s/g, '\n');
+    } else {
+        // Se houver apenas um espaço, aplique a formatação padrão
+        var formattedValue = '{value|' + value + '}';
+    }
+
+    return formattedValue;
+}
+    </script>
         <!-- BACK-TO-TOP -->
         <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
         <!-- JQUERY JS -->

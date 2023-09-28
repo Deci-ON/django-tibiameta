@@ -1,4 +1,5 @@
 {% load static %}
+{% load social_share %}
 
 <!doctype html>
 <html lang="en" dir="ltr">
@@ -50,7 +51,7 @@
         <link rel="stylesheet"
 	    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <!-- COLOR SKIN CSS -->
-        <link id="theme" rel="stylesheet" type="text/css" media="all" href="{%static 'colors/color1.css' %}" />
+        <link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'colors/color1.css' %}" />
 
         <!-- INTERNAL Switcher css -->
         <link href="{% static 'switcher/css/switcher.css' %}" rel="stylesheet"/>
@@ -85,6 +86,12 @@
                     </div>
                     <div class="card-body text-center" id="card_left">
                         <h4 class="h3 mb-0 mt-3">{{data.characters.character.name }}</h4>
+                        <h4 class="pt-3">
+                            <a href="javascript:void(0);" id="clipboard" data-bs-toggle="tooltip" data-bs-html="true" title="Copy to clipboard">
+                            <i class="fe fe-link"></i>
+                        </a>
+                        </h4>
+                        <div id="mensagem"></div>
                         <p class="card-text">
 
                         {% if data %}
@@ -144,48 +151,283 @@
 
                         </ul>
                     </p>
-
-
                     </div>
                     <div class="card-footer text-center">
                     </div>
+                    
                 </div>
             </div>
             <div class="col-xl-9 col-sm-12 col-md-9">
-                <div class="card">
+                <div class="card border p-0">
                     <div class="card-header">
-                        <!-- <h3 class="card-title"></h3> -->
+                        <h5 class="card-title text-center"></h5>
                     </div>
-                    <div class="card-body" id="card_right">
-                        <div id="experience" class="chartsh" style="height: 100%; width:100%"></div>
+                    <div class="card-body text-center" id="card_right">
+                        <div class="panel panel-primary">
+                            <div class="tab-menu-heading">
+                                <div class="tabs-menu">
+                                    <!-- Tabs -->
+                                    <ul class="nav panel-tabs panel-primary">
+                                        <li><a href="#numbers" class="active" data-bs-toggle="tab"><span><i class="fa-solid fa-list-ol"></i></span> Character in Numbers</a></li>
+                                        <li onclick="resize_table_deaths();"><a href="#deaths" data-bs-toggle="tab"><span><i class="fa-solid fa-skull"></i></span> Deaths</a></li>
+                                        <li onclick="resize_table_level();"><a href="#level_hist" data-bs-toggle="tab"><span><i class="fa-solid fa-scroll"></i></span> Level Hist</a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel-body tabs-menu-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="numbers">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="card-order">
+                                                            <!-- <h6 class="mb-2">Orders</h6> -->
+                                                            <span class="text-end" style="font-size: 2em;">
+                                                                <i class="fa-solid fa-dragon icon-size float-start text-danger text-danger-shadow border-solid border-danger brround" style="padding: 12px 8px 12px 8px;"></i>
+                                                                <span class="counter">
+                                                                {% if char_exp_change_avg %}
+                                                                    {{ char_exp_change_avg }}
+                                                                {% else %}
+                                                                    No Data
+                                                                {% endif %}
+                                                            </span>EXP</span>
+                                                            <!-- <p class="mb-0 pt-5">AVG EXP DAY</p> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer text-center">
+                                                        AVG EXP DAY
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="card-order">
+                                                            <!-- <h6 class="mb-2">Orders</h6> -->
+                                                            <span class="text-end" style="font-size: 2em;">
+                                                                <i class="fa-solid fa-crown icon-size float-start text-warning text-warning-shadow border-solid border-warning brround" style="padding: 12px 10px 12px 10px;"></i>
+                                                                <span class="counter">
+                                                                {% if highscore_value %}
+                                                                    {{ highscore_value }}
+                                                                {% else %}
+                                                                    No Data
+                                                                {% endif %}
+                                                            </span>EXP</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer text-center">
+                                                        All Time High Exp: <strong>{{ highscore_date }} Level: {{ highscore_level }}</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- 2 ROW -->
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="card-order">
+                                                            <span class="text-end" style="font-size: 2em;">
+                                                                <i class="fa-solid fa-stopwatch icon-size float-start text-success text-success-shadow border-solid border-success brround" style="padding: 12px 14px 12px 14px;"></i>
+                                                                <span class="counter">
+                                                                {% if char_hour_avg %}
+                                                                    {{ char_hour_avg }}
+                                                                {% else %}
+                                                                    0
+                                                                {% endif %}
+                                                            </span>Hours
+                                                                <span class="counter">
+                                                                    {% if char_minutes_avg %}
+                                                                        {{ char_minutes_avg }}
+                                                                    {% else %}
+                                                                        No Data
+                                                                    {% endif %}
+                                                            </span>Min</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer text-center">
+                                                        AVG ONLINE TIME
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="card-order">
+                                                            <!-- <h6 class="mb-2">Orders</h6> -->
+                                                            <span class="text-end" style="font-size: 2em;">
+                                                                <i class="fa-solid fa-clock icon-size float-start text-primary text-primary-shadow border-solid border-primary brround p-3"></i>
+                                                                <span class="counter">
+                                                                {% if avg_exp_h %}
+                                                                    {{ avg_exp_h }}
+                                                                {% else %}
+                                                                    No Data
+                                                                {% endif %}
+                                                            </span>/H
+                                                        </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer text-center">
+                                                        EXP/H
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="tab-pane" id="deaths">
+                                            <div class="row">
+                                                <div class="col-xl-12">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                                <table id="example7" class="table border text-nowrap text-md-nowrap table-striped mb-0" style="width: 100%;">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Level</th>
+                                                                            <th>Killer</th>
+                                                                            <th>Date</th>
+                                                                            <th>Reason</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {% for death in deaths %}
+                                                                        <tr>
+                                                                            <td>{{ death.0 }}</td>
+                                                                            <td>{{ death.1 }}</td>
+                                                                            <td>{{ death.2 }}</td>
+                                                                            <td>{{ death.3 }}</td>
+                                                                        </tr>                                                                        
+                                                                        {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="level_hist">
+                                            <div class="row">
+                                                <div class="col-xl-12">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                                <table id="example8" class="table border text-nowrap text-md-nowrap table-striped mb-0" style="width: 100%;">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Level</th>
+                                                                            <th>Date</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {% for info in pairs %}
+                                                                        <tr>
+                                                                            <td>{{ info.0 }}</td>
+                                                                            <td>{{ info.1 }}</td>
+                                                                        </tr>
+                                                                        {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer text-center">
                     </div>
                 </div>
             </div>
-
+        </div>
+        <!---Chart-->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body" style="height: 400px; width:100%">
+                        <div id="experience" class="chartsh" style="height: 100%; width:100%"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
-        <!-- Corrige Tamanho Cards -->
-        <script>
-            function sizeOfThings() {
-                modal_e = document.getElementById("card_left").offsetHeight;
-                            modal_d = document.getElementById("card_right");
-                            modal_d.style.height = modal_e + 'px';
-            };
-            sizeOfThings();
+<!-- Corrige Tamanho Cards -->
+<script>
+    function sizeOfThings() {
+        modal_e = document.getElementById("card_left").offsetHeight;
+        modal_d = document.getElementById("card_right");
 
-            window.addEventListener('resize', function() {
-                sizeOfThings();
+        if(window.innerWidth > 770){
+
+            modal_d.style.height = modal_e + 'px';
+
+        }else{
+            modal_d.style.height = '100%'
+        }
+    };
+    sizeOfThings();
+
+    window.addEventListener('resize', function() {
+        sizeOfThings();
+    });
+</script>
+
+<script>
+    num=0;
+    function resize_table_deaths(){
+        if (num == 0){
+            $('#example7').DataTable({
+                responsive: true,
+                lengthMenu: [5],
+                lengthChange: false,
+                searching: false,
+                order:[
+                ],
+                columns: [
+                    { orderable: false }, 
+                    { orderable: true },
+                    { orderable: true }, 
+                    { orderable: true }, 
+                ]
             });
-        </script>
+            num++;
+        }
+
+    }
+</script>
+
+<script>
+    num1=0;
+    function resize_table_level(){
+        if (num1 == 0){
+            $('#example8').DataTable({
+                responsive: true,
+                lengthMenu: [5],
+                lengthChange: false,
+                searching: false,
+                order:[
+                ],
+                columns: [
+                    { orderable: false }, 
+                    { orderable: true },
+                ]
+            });
+            num1++;
+        }
+
+    }
+</script>
 
         <!-- Echarts -->
-        <script src="
-            https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js
-            "></script>
-        <script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+
+<script>
 var chartDom = document.getElementById('experience');
 var myChart = echarts.init(chartDom);
 var option = JSON.parse('{{graph|escapejs}}')
@@ -195,7 +437,7 @@ myChart.setOption(option);
 window.onresize = function() {
     myChart.resize();
   };
-        </script>
+</script>
 
         <div class="row">
             <div class="col-xl-12">
@@ -206,7 +448,7 @@ window.onresize = function() {
                             Days</h3>
                     </div>
                     <div class="card-body">
-                            <table id="example2" class="table border text-nowrap text-md-nowrap table-striped mb-0">
+                            <table id="example2" class="table border text-nowrap text-md-nowrap table-striped mb-0" style="width:100%;">
                                 <thead>
                                     <tr>
                                         <th>Date</th>
@@ -259,12 +501,43 @@ window.onresize = function() {
                     </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
+    </div>
+    </div>
+</div>
 
-    </div>
-    </div>
+
+<script>
+    document.getElementById('clipboard').addEventListener('click', function() {
+        // Selecione o elemento de texto a ser copiado
+        var linkParaCopiar = "{{ link }}";
+
+        // Crie um elemento de input de texto oculto
+        var input = document.createElement('input');
+        input.setAttribute('value', linkParaCopiar);
+        document.body.appendChild(input);
+
+        // Selecione o texto no input de texto
+        input.select();
+        input.setSelectionRange(0, 99999); // Para dispositivos móveis
+
+        // Copie o texto para a área de transferência
+        document.execCommand('copy');
+
+        // Remova o input de texto
+        document.body.removeChild(input);
+        // Exiba a mensagem na div 'mensagem'
+        var mensagemDiv = document.getElementById('mensagem');
+        mensagemDiv.textContent = 'Copied';
+
+        // Remova a mensagem após um período de tempo (por exemplo, 3 segundos)
+        setTimeout(function() {
+            mensagemDiv.textContent = '';
+        }, 1500); // 3000 milissegundos = 3 segundos
+    });
+</script>
+
 
             <!-- FOOTER -->
             {% include 'fragments/footer.html' %}
@@ -309,6 +582,10 @@ window.onresize = function() {
             <script src="{% static 'datatable/dataTables.responsive.min.js' %}"></script>
             <script src="{% static 'datatable/responsive.bootstrap5.min.js' %}"></script>
             <script src="{% static 'tabledata/table-data.js' %}"></script>
+            <!--- COUNTER -->
+            <script src="{% static 'counters/counterup.min.js' %}"></script>
+            <script src="{% static 'counters/waypoints.min.js' %}"></script>
+            <script src="{% static 'counters/counters-1.js' %}"></script>
         </body>
 
     </html>

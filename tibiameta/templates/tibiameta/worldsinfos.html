@@ -1,0 +1,325 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" dir="ltr">
+
+
+
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-248395791-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-248395791-1');
+</script>
+
+        <!-- META DATA -->
+        <meta charset="UTF-8">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0,
+            user-scalable=0'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="Tibia Meta - Powerfull tools and infos
+            about Tibia Characters">
+        <meta name="author" content="Matheus Decion">
+        <meta name="keywords" content="tibia, tibiameta, tibia meta, Tibia Meta,
+            tools, dashboards, tibia gold, tibia character">
+
+        <!-- FAVICON -->
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo/favicon.ico' %}" />
+
+        <!-- TITLE -->
+        <title>Tibia Meta - Worlds Infos</title>
+
+        <!-- BOOTSTRAP CSS -->
+        <link id="style" href="{% static 'css/bootstrap/bootstrap.min.css' %}"
+            rel="stylesheet" />
+
+        <!-- STYLE CSS -->
+        <link href="{% static 'css/styles/style.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/styles/dark-style.css' %}" rel="stylesheet"
+            />
+        <link href="{% static 'css/styles/transparent-style.css' %}"
+            rel="stylesheet">
+        <link href="{% static 'css/styles/skin-modes.css' %}" rel="stylesheet"
+            />
+
+        <!--- FONT-ICONS CSS -->
+        <link href="{% static 'css/styles/icons.css' %}" rel="stylesheet" />
+        <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <!-- COLOR SKIN CSS -->
+        <link id="theme" rel="stylesheet" type="text/css" media="all"
+            href="{%static 'colors/color1.css' %}" />
+
+        <!-- INTERNAL Switcher css -->
+        <link href="{% static 'switcher/css/switcher.css' %}" rel="stylesheet"/>
+        <link href="{% static 'switcher/demo.css' %}" rel="stylesheet" />
+                <!-- Flatpickr -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    </head>
+
+    <body class="app sidebar-mini ltr dark-mode">
+        {% include 'fragments/switcher.html' %}
+        <!-- GLOBAL-LOADER -->
+        <div id="global-loader">
+            <div class="spinner-border text-primary loader-img" role="status"
+                style="width: 5rem; height: 5rem">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div class="page">
+            <div class="page-main">
+                <!-- app-Header -->
+                {% include 'fragments/header2.html' %}
+                <!-- /app-Header -->
+
+                <!--APP-SIDEBAR-->
+                {% include 'fragments/sidebar.html' %}
+                <!--/APP-SIDEBAR-->
+                <div class="main-content app-content mt-0">
+                    <div class="side-app">
+                        <div class="row mt-0">
+                            <div class="col-xl-12">
+                                <div class="card mt-5">
+                                    <div class="card-header">
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <h3>Average Online players by server</h3>
+                                            <form method="POST" action="{% url 'searchbyworld' %}" class="row g-3">
+                                                {% csrf_token %}
+                                                <div class="col-xl-6">
+                                                    <label for="server">Select the server</label>
+                                                    {{ world_form.as_p }}
+                                                </div>
+                                        
+                                                <div class="col-xl-6 flatpickr">
+                                                    <label for="calendario">Select the date</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" placeholder="Search date" id="calendario" name="calendario" data-input readonly>
+                                                        <a class="input-group-text btn-info" title="toggle" data-toggle>
+                                                            <i class="icon-calendar"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-xl-12 justify-content-center">
+                                                    <button type="submit" class="btn btn-primary" data-clear>Search</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        
+                                        
+                                    </div> 
+                                    <div class="card-footer">
+                                    </div>
+                                </div>
+                            </div>                                          
+                        </div>
+
+                                
+                                <div class="row">
+                                    {% if on_open %}
+                                    <div class="col-xl-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h3>Average Players in Worlds</h3>
+                                            </div>
+                                            <div class="card-body" style="height: 400px; width:100%">
+                                                <div id="graph" class="chartsh" style="height: 100%; width:100%"></div>
+                                            </div>
+                                            <div class="card-footer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if selected_world %}
+                                    <div class="col-xl-3">
+                                        <div class="card">
+                                            <div class="card-header justify-content-center">
+                                                <h3>{{ selected_world }} Infos</h3>                                            
+                                            </div>
+                                            <div class="card-body" style="height: 400px; width:100%">
+                                                {% if status == "online" %}
+                                                <li><strong>Status: </strong><span style="color: rgb(20, 204, 0);">Online</span></li>
+                                                {% else %}
+                                                <li><strong>Status: </strong><span style="color: red;">Offline</span></li>
+                                                {% endif %}
+                                                <li><strong>Players online: </strong> {{ players_online }}</li>
+                                                <li><strong>Record Players: </strong> {{ record_players }}</li>
+                                                <li><strong>Record Date: </strong> {{ record_date }}</li>
+                                                <li><strong>Creation Date: </strong> {{ creation_date }}</li>
+                                                <li><strong>Location: </strong> {{ location }}</li>
+                                                <li><strong>PVP Type: </strong> {{ pvp_type }}</li>                                                                                                        
+                                                <li><strong>Premium Only: </strong> {{ premium_only }}</li>
+                                                <li><strong>Battleye Protected: </strong> {{ battleye_protected }}</li>                                                                                                        
+                                                <li><strong>Battleye Date: </strong> {{ battleye_date }}</li>                                                                                                        
+                                                <li><strong>World Type: </strong> {{ game_world_type }}</li>                                                                                                        
+                                                                                                    
+                                            </div>
+                                            <div class="card-footer">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-9">
+                                        <div class="card">
+                                            <div class="card-header justify-content-center">
+                                                <h3>Average Players in {{ selected_world }} on {{ selected_date }}</h3>
+                                            </div>
+                                            <div class="card-body" style="height: 400px; width:100%">
+                                                {% if hour_list == '[]' %}
+                                                <h3 style="color: red; justify-content: center;">NO DATA</h3>
+                                                {% else %}
+                                                <div id="graph" class="chartsh" style="height: 100%; width:100%"></div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="card-footer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                </div>
+
+                    </div>
+                </div>
+            </div>
+                        <!-- FOOTER -->
+                        {% include 'fragments/footer.html' %}
+                        <!-- FOOTER CLOSED -->
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+        <script>
+        var chartDom = document.getElementById('graph');
+        var myChart = echarts.init(chartDom);
+        var hour_list = JSON.parse('{{ hour_list|safe }}')
+        var average_list = JSON.parse('{{ average_list|safe }}')
+
+        option = {
+              dataZoom: [
+              {
+                type: "inside",
+                  trigger: "axis",
+              }
+            ],
+            xAxis: {
+              type: 'category',
+              boundaryGap: false,
+              data: hour_list
+            },
+            yAxis: {
+              type: 'value'
+            },
+            series: [
+              {
+                data: average_list,
+                type: 'line',
+                smooth: "true",
+                label: {
+                show: "true",
+                position: 'top',
+                textStyle:{
+                    color: '#fff', 
+                    fontSize: "10", 
+                    fontStyle: "italic",
+                    fontWeight: "bold"
+                }
+                },
+                areaStyle: {
+                    color: "#FD811E"
+                },
+                itemStyle: {
+                    color: "#FD811E"
+                }
+              }
+            ]
+          };
+        myChart.setOption(option);
+          window.onresize = function() {
+              myChart.resize();
+            };
+        </script>
+        <script>
+
+            // Calcula a data 30 dias atrás da data atual
+            const trintaDiasAtras = new Date();
+            trintaDiasAtras.setDate(trintaDiasAtras.getDate() - 30);
+
+            const trintaDiasAtras2 = new Date();
+            trintaDiasAtras2.setDate(trintaDiasAtras2.getDate());
+
+            function inicializarFlatpickr() {
+                // Calcula a data 30 dias atrás da data atual
+                const trintaDiasAtras = new Date();
+                trintaDiasAtras.setDate(trintaDiasAtras.getDate() - 30);
+
+                // Opções do Flatpickr
+                const options = {
+                    minDate: trintaDiasAtras,
+                    maxDate: trintaDiasAtras2, // Define o limite máximo para a data atual
+                    dateFormat: "Y-m-d", // Formato da data exibida (Ano-Mês-Dia)
+                };
+
+                // Inicializa o Flatpickr com as opções
+                const flatpickrInstance = flatpickr(".flatpickr", options);
+
+                // Captura o input para atualizar o valor manualmente
+                const input = document.querySelector(".flatpickr [data-input]");
+
+                // Atualiza o valor do input quando a data é selecionada
+                flatpickrInstance.input.addEventListener("change", (event) => {
+                    input.value = event.target.value;
+                });
+
+                // Adiciona um evento de clique ao documento para detectar o clique no botão de limpar
+                document.addEventListener("click", (event) => {
+                    const clearButton = document.querySelector("[data-clear]");
+
+                    // Se o botão de limpar for clicado, feche o calendário
+                    if (event.target === clearButton || clearButton.contains(event.target)) {
+                        flatpickrInstance.close();
+                    }
+                });
+            }
+
+            // Espera pelo carregamento completo do DOM antes de inicializar o Flatpickr
+            document.addEventListener("DOMContentLoaded", inicializarFlatpickr);
+        </script>
+        <!-- BACK-TO-TOP -->
+        <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+        <!-- JQUERY JS -->
+        <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+        <!-- BOOTSTRAP JS -->
+        <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+        <!-- SIDE-MENU JS -->
+        <script src="{% static 'js/sidemenu/sidemenu.js' %}"></script>
+        <!-- TypeHead js -->
+        <!-- <script src="../assets/plugins/bootstrap5-typehead/autocomplete.js"></script>
+        <script src="../assets/js/typehead.js"></script> -->
+        <!-- SIDEBAR JS -->
+        <script src="{% static 'js/sidebar/sidebar.js' %}"></script>
+        <!--Perfect SCROLLBAR JS -->
+        <script src="{% static 'js/p-scroll/perfect-scrollbar.js' %}"></script>
+        <script src="{% static 'js/p-scroll/pscroll.js' %}"></script>
+        <script src="{% static 'js/p-scroll/pscroll-1.js' %}"></script>
+        <!-- Color Theme js -->
+        <script src="{% static 'js/themecolors/themeColors.js' %}"></script>
+        <!-- Sticky js -->
+        <script src="{% static 'js/sticky/sticky.js' %}"></script>
+        <!-- Flatpickr -->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+        <!-- CUSTOM JS -->
+        <script src="{% static 'js/custom1/custom1.js' %}"></script>
+        <!-- Switcher js -->
+        <script src="{% static 'switcher/js/switcher.js' %}"></script>
+    </body>
+
+</html>

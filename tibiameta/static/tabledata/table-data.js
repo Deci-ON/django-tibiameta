@@ -63,7 +63,7 @@ $(function(e) {
                 } )
             }
         }
-    } );
+    });
     $('#example2').DataTable({
 		responsive: true,
         lengthMenu: [35, 20, 10],
@@ -85,7 +85,6 @@ $(function(e) {
             { orderable: true }, 
         ]
 	});
-	
 
     //______Select2 
     $('.select2').select2({

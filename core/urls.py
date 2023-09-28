@@ -30,7 +30,7 @@ urlpatterns = [
     path('partylevelcalculator/', include('partylevelcalculator.urls')),
     path('expcalculator/', include('expcalculator.urls')),
     path('blog/', include('blog.urls')),
-    path('exercisecalculator/', include('exercisecalculator.urls')),
-
+    path('exercisecalculator/', include('exercisecalculator.urls')),  
+    path('worldsinfos/', include('worldsinfos.urls')),
 
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

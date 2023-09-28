@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.db import connections
 from django.http import JsonResponse
+from datetime import timedelta, datetime
 import requests
 import json
 import re
@@ -53,6 +54,7 @@ def characterinfo(request):
             data = response.json()
             char_name = data['characters']['character'].get('name')
             if char_name !='':
+              link = f'https://tibiameta.com/charactersearch/?character={char_name}'
               api_status = True
               level = data['characters']['character']['level']
               max_level = (level/2)
@@ -132,11 +134,24 @@ def characterinfo(request):
           total_hours = 0
           columns = [col[0] for col in cursor.description]
           char_info_ref_list = [row[0].strftime('%m-%d') for row in rows]
-          char_exp_change_list = [row[2].replace(',', '') for row in rows]    
+          char_exp_change_list = [row[2].replace(',', '') for row in rows]
+          lista_de_inteiros = [int(string) for string in char_exp_change_list]
+          char_exp_change_avg = int(sum(lista_de_inteiros)/len(char_exp_change_list))
+          char_exp_change_avg = "{:,}".format(char_exp_change_avg)
           total_char_change_exp = sum([int(x) for x in char_exp_change_list])
+          total_char_change_exp_h = total_char_change_exp
           total_char_change_exp = "{:,}".format(total_char_change_exp)
           char_time_list = [row[5] for row in rows]  # assumindo que a coluna de horas é a coluna de índice 5
-          
+          tempos = [timedelta(hours=int(h[:2]), minutes=int(h[3:5]), seconds=int(h[6:8])) for h in char_time_list]
+          # Somar todos os tempos
+          soma_total = sum(tempos, timedelta())
+          # Calcular a média
+          media = soma_total / len(tempos)
+          # Exibir a média no formato "horas e minutos"
+          horas_media, segundos_media = divmod(media.seconds, 3600)
+          minutos_media = segundos_media // 60
+          char_hour_avg = horas_media
+          char_minutes_avg = minutos_media
           for char_time in char_time_list:
             time_parts = char_time.split(":")
             hours = int(time_parts[0])
@@ -146,13 +161,47 @@ def characterinfo(request):
             total_seconds = hours * 3600 + minutes * 60 + seconds
             total_hours += total_seconds / 3600
             total_hours = round(total_hours)
+          avg_exp_h = int(total_char_change_exp_h/total_hours)
+          avg_exp_h = "{:,}".format(avg_exp_h)
           query_status: True
       else:
         query_status = False
 
-  except Exception:
-      query_status = False
+  except Exception as e:
+    print(e)
+    query_status = False
+
+  try:
+    with connections['tibia_meta'].cursor() as cursor:    
+      cursor.execute(f"SELECT char_level, char_killers_name, char_date, char_reason FROM tibia_stats.char_deaths where char_name= '{character}' ")
+      deaths=cursor.fetchall()
+      
+      
+  except Exception as e:
+    print(e)
+    
+  try:
+    with connections['tibia_meta'].cursor() as cursor:  
+      cursor.execute(f"SELECT char_highscore, char_ref_date, char_level FROM tibia_stats.char_highscore_date where char_name= '{character}' order by char_ref_date desc limit 1;")
+      highscore=cursor.fetchall()
+      highscore_value = highscore[0][0]
+      highscore_value = "{:,}".format(highscore_value)
+      highscore_date = highscore[0][1]
+      highscore_date = highscore_date.strftime("%d/%m/%Y")
+      highscore_level = highscore[0][2]
+
+  except Exception as e:
+    print(e)
   
+  try:
+    with connections['tibia_meta'].cursor() as cursor:  
+      cursor.execute(f"select * from (SELECT char_event_newlevel, convert(char_event_date, date) as char_event_date FROM tibia_stats.char_level_events where char_event_name = '{char_name}' order by char_event_date desc limit 30)a order by a.char_event_date asc")
+      level_event = cursor.fetchall()
+      level_hist = [row[0]  for row in level_event]
+      date_hist = [row[1]  for row in level_event]
+      pairs = list(zip(level_hist, date_hist))
+  except Exception as e:
+    print(e)
   #Monta Grafico
   option = {
   "title": {
@@ -200,6 +249,7 @@ def characterinfo(request):
   if api_status == True and query_status == True:
     context = {
           'data': data,
+          'link': link,
           'online': online,
           'objects_list': rows,
           'columns_list': columns,
@@ -209,8 +259,17 @@ def characterinfo(request):
           'min_level': min_level,
           'max_level': max_level,
           'total_char_change_exp': total_char_change_exp,
+          'char_exp_change_avg': char_exp_change_avg,
+          'char_hour_avg': int(char_hour_avg),
+          'char_minutes_avg': int(char_minutes_avg),
           'total_hours': total_hours,
-          'graph': json.dumps(option)
+          'highscore_value': highscore_value,
+          'highscore_date': highscore_date,
+          'highscore_level': highscore_level,
+          'avg_exp_h': avg_exp_h,
+          'deaths': deaths,
+          'graph': json.dumps(option),
+          'pairs': pairs
       }
     try:
       char_name = char_name.replace("'","''")
@@ -223,6 +282,7 @@ def characterinfo(request):
   elif api_status != True and query_status == True:
     context = {
     'objects_list': rows,
+    'link': link,
     'columns_list': columns,      
     'total_char_change_exp': total_char_change_exp,
     'total_hours': total_hours,
@@ -239,6 +299,7 @@ def characterinfo(request):
     context = {
       'data': data,
       'online': online,
+      'link': link,
       'hitpoints': hitpoints,
       'mana': mana,
       'cap': cap,

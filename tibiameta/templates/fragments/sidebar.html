@@ -5,16 +5,16 @@
 <div class="sticky">
     <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
     <div class="app-sidebar">
-        <div class="side-header">
+        <div class="side-header" style="height: 88.8px;">
             <a class="header-brand1" href="{% url 'index' %}">
                 <img src="{% static 'images/logo/tibiametalogo2beta.webp' %}" class="header-brand-img desktop-logo" alt="logo" height="80">
-                <img src="{% static 'images/logo/tibiametalogo2beta.webp' %}" class="header-brand-img toggle-logo" alt="logo" height="80">
+                <img src="{% static 'images/logo/tibiametalogo2bear.webp' %}" class="header-brand-img toggle-logo" alt="logo" style="height: 80px; width: 237px;">
                 <img src="{% static 'images/logo/tibiametalogo2beta.webp' %}" class="header-brand-img light-logo" alt="logo" height="80">
-                <img src="{% static 'images/logo/tibiametalogo2beta.webp' %}" class="header-brand-img light-logo1" alt="logo" height="80">
+                <img src="{% static 'images/logo/tibiametalogo2bear.webp' %}" class="header-brand-img light-logo1" alt="logo" height="80px">
             </a>
             <!-- LOGO -->
         </div>
-        <div class="main-sidemenu">
+        <div class="main-sidemenu mt-6">
             <div class="slide-left disabled" id="slide-left"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"/></svg></div>
                 <ul class="side-menu">
                     <li class="sub-category">
@@ -60,7 +60,16 @@
                             <li><a href="{% url 'top100exp' %}" class="slide-item">Top 100 Highscores</a></li>
                         </ul>
                     </li>
-
+                    <li class="sub-category">
+                        <h3>Worlds</h3>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i class="side-menu__icon fa-solid fa-earth-americas"></i><span class="side-menu__label">Worlds</span><i class="angle fe fe-chevron-right"></i></a>
+                        <ul class="slide-menu">
+                            <li class="side-menu-label1"><a href="javascript:void(0)">AVG Players in Worlds</a></li>
+                            <li><a href="{% url 'onopenpage' %}" class="slide-item">AVG Players in Worlds</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </ul>
             <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"><path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"/></svg></div>

@@ -82,7 +82,13 @@
             <div class="main-content app-content mt-0 mb-0" id="stars-page">
                 <div class="side-app">
                     <!-- CONTAINER -->
-                    <div class="main-container container-fluid mt"> <!---<style="background-image: url('../assets/images/landing/capa.webp'); background-repeat:no-repeat; background-size:auto;"> -->
+                    <div class="main-container container-fluid mt">
+                      <div class="row">
+                        <div class="col" style="left: 0px; margin-top: 25px;">
+                          <img src="https://static.tibia.com/images/global/header/pedestal.gif" alt="Pedestal" style="max-width: 100%; position: fixed; top: 100px; right: 0;z-index: 10000px;">
+                          <img src="{{ creature_url }}" alt="Boosted Creature: {{ creature_name }}" data-bs-placement="bottom" data-bs-toggle="tooltip" title="" data-bs-original-title="Boosted Creature: {{ creature_name }}" style="max-width: 100%; position: fixed; top: 5.5rem; margin-right:6rem; right: 0;z-index: 10000px;">
+                          <img src="{{ boss_url }}" alt="Boosted Boss: {{ boss_name }}" data-bs-placement="bottom" data-bs-toggle="tooltip" title="" data-bs-original-title="Boosted Boss: {{ boss_name }}" style="max-width: 100%; position: fixed; top: 5.5rem; margin-right:2.2rem; right: 0;z-index: 10000px;">
+                        </div>
                         <div class="row justify-content-center">
                             <div class="col-xl-4 mt-9" style="margin-bottom: 60px;">
                                 <div class="text-center">
@@ -105,25 +111,12 @@
                                 <p class="error" style="color:red">{{ error }}</p>
                                 {% endif %}
                               </div>
-                        <!-- PAGE-HEADER -->
-                        <!-- <div class="page-header">
-                            <div>
-
-                            </div>
-                        </div> -->
-                        <!-- PAGE-HEADER END -->
-
-                        <!-- ROW-1 OPEN -->
-                        <!-- Row -->
-                        <!-- <div class="row ">
-                            <div class="col-md-12">
-                            </div>
-                        </div> -->
                         <!-- /Row -->
                     </div>
                     <!-- CONTAINER CLOSED -->
                 </div>
             </div>
+          </div>
             <!--app-content closed-->
         </div>
 
@@ -136,6 +129,7 @@
         {% include 'fragments/footer.html' %}
         <!-- FOOTER CLOSED -->
     </div>
+  </div>
 
 
     <!-- BACK-TO-TOP -->
@@ -202,6 +196,7 @@
 
     <!-- CUSTOM JS -->
     <script src="{% static 'js/custom1/custom1.js' %}"></script>
+    <script src="{% static 'js/tooltip/tooltip&popover.js' %}"></script>
 
     <!-- Switcher js -->
     <script src="{% static 'switcher/js/switcher.js' %}"></script>

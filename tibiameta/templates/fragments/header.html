@@ -3,14 +3,15 @@
 <div class="app-header header sticky">
     <div class="container-fluid main-container ">
         <div class="d-flex align-items-center">
-            <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar" href="javascript:void(0)" onclick="setInterval(sizeOfThings,100)"></a>
+            <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar" href="javascript:void(0)"></a>
 
             <div class="d-flex order-lg-2 ms-auto header-right-icons">
                 <!-- SEARCH -->
                 <div class="d-grid gap-2 mt-0">
-                    <a href="https://tibiaforsale.com/?wpam_id=773" target="_blank">
-                    <button class="btn btn-orange d-sm-block" type="button" style="margin-top:-8px;">Buy Tibia Coins</button>
-                    </a>
+                    <div class="d-flex align-items-center">
+                        <img src="{% static 'images/media/rashid.gif' %}" alt="Rashid" style="max-width: 80px; height: auto;"><span style="margin-right: 10px;"> in {{ city }} </span> 
+                        <a href="https://tibiaforsale.com/?wpam_id=773" target="_blank" class="btn btn-orange d-sm-block">Buy Tibia Coins</a>
+                    </div>
                   </div>
                 <button class="navbar-toggler navresponsive-toggler d-lg-none ms-auto" type="button"
                     data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent-4"
