@@ -1,0 +1,223 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!doctype html>
+<html lang="en" dir="ltr">
+
+    <head>
+
+        <!-- META DATA -->
+        <meta charset="UTF-8">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0,
+            user-scalable=0'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="Tibia Meta - Powerfull tools and infos
+            about Tibia Characters">
+        <meta name="author" content="Matheus Decion">
+        <meta name="keywords" content="tibia, tibiameta, tibia meta, Tibia Meta,
+            tools, dashboards, tibia gold, tibia character">
+
+        <!-- FAVICON -->
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo/favicon.ico' %}" />
+
+        <!-- TITLE -->
+        <title>Tibia Meta - Party Finder</title>
+
+        <!-- BOOTSTRAP CSS -->
+        <link id="style" href="{% static 'css/bootstrap/bootstrap.min.css' %}"
+            rel="stylesheet" />
+
+        <!-- STYLE CSS -->
+        <link href="{% static 'css/styles/style.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/styles/dark-style.css' %}" rel="stylesheet"
+            />
+        <link href="{% static 'css/styles/transparent-style.css' %}"
+            rel="stylesheet">
+        <link href="{% static 'css/styles/skin-modes.css' %}" rel="stylesheet"
+            />
+
+        <!--- FONT-ICONS CSS -->
+        <link href="{% static 'css/styles/icons.css' %}" rel="stylesheet" />
+        <link rel="stylesheet"
+	    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <!-- COLOR SKIN CSS -->
+        <link id="theme" rel="stylesheet" type="text/css" media="all" href="{%static 'colors/color1.css' %}" />
+
+        <!-- INTERNAL Switcher css -->
+        <link href="{% static 'switcher/css/switcher.css' %}" rel="stylesheet"/>
+        <link href="{% static 'switcher/demo.css' %}" rel="stylesheet" />
+ 
+        <!-- Flatpickr -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+        <!-- HTMX -->
+        <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    </head>
+    <body class="app sidebar-mini ltr dark-mode">
+        {% include 'fragments/switcher.html' %}
+            <!-- GLOBAL-LOADER -->
+    <div id="global-loader">
+        <div class="spinner-border text-primary loader-img" role="status" style="width: 5rem; height: 5rem">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div class="page">
+        <div class="page-main">
+            <!-- app-Header -->
+            {% include 'fragments/header2.html' %}
+            <!-- /app-Header -->
+
+            <!--APP-SIDEBAR-->
+            {% include 'fragments/sidebar.html' %}
+            <!--/APP-SIDEBAR-->
+    <div class="main-content app-content mt-5">
+        <div class="side-app">
+            <div class="row"  style="display: flex;">
+                <div class="col-xl-6 col-sm-6 col-md-6 mt-5">
+                    <h1><strong>Party Finder</strong></h1>
+                </div>
+                <div class="col-xl-6 col-sm-6 col-md-6 mt-5">
+                    <i class="icon icon-question" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="float: right;"></i>
+                </div>
+            </div>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="visibility: hidden;" aria-hidden="true">
+                <div class="offcanvas-header">
+                    <h5 id="offcanvasRightLabel">How to use:</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"><i class="fe fe-x fs-18"></i></button>
+                </div>
+                <div class="offcanvas-body">
+                    * Insert character name 1 in the first input (This is the character who has the lowest level).
+                    <br>
+                    * Insert character name 2 in the second input (This is the character who has the higher level).
+                    <br>
+                    * See the magic happening.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-3 col-sm-3 col-md-3 mt-1">
+                    <div class="card h-100 mb-2">
+                        <div class="card-header">
+                        </div>
+                        <div class="card-body text-center d-flex flex-column">
+                            <label for="Character" class="form-label">Character</label> 
+                            <div class="form-group">
+                                <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                                    {% render_field form.player1 hx-post="partyfinder/htmx_search_player" hx-target="#playerresult" hx-trigger="keyup changed delay:500ms, change delay:500ms" %}
+                                </body>
+                            </div>
+                            {{ form.player1.errors }}
+                        </div>
+                        <div class="card-footer mt-4">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-3 col-md-3 mt-1">
+                    <div class="card h-100">
+                        <div class="card-header">
+                        </div>
+                        <div class="card-body text-center d-flex flex-column">
+                            <div class="form-group">
+                                <label for="Level" class="worlds-label">Level</label> 
+                                <form id="searchworld">
+                                    {% csrf_token %}
+                                        {{ worlds.level_field }}
+                                    <div hx-post="partyfinder/htmx_search_world" hx-trigger="keyup changed delay:500ms, change delay:500ms"  hx-target="#playerresult">
+                                        <label for="Server" class="worlds-label" style="margin-top: 20px;">Server</label>
+                                        {{ worlds.server_name }}
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            {{ worlds.errors }}
+                        </div>
+                        <div class="card-footer mt-4">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-sm-6 col-md-6 mt-1">
+                    <div class="card h-100">
+                        <div class="card-header">
+                        </div>
+                        <div class="card-body text-center d-flex flex-column">
+                            <!-- <label for="Server" class="worlds-label">Server</label> 
+                            <div class="form-group">
+                                <form id="searchworld">
+                                    {% csrf_token %}
+                                        {{ worlds.level_field }}
+                                    <div hx-post="partyfinder/htmx_search_world" hx-trigger="keyup changed delay:500ms, change delay:500ms"  hx-target="#playerresult">
+                                        {{ worlds.server_name }}
+                                    </div>
+                                </form>
+                            </div>
+                            {{ worlds.errors }} -->
+                        </div>
+                        <div class="card-footer mt-4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div id="playerresult">
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    
+
+<!-- FOOTER -->
+{% include 'fragments/footer.html' %}
+<!-- FOOTER CLOSED -->
+
+<!-- BACK-TO-TOP -->
+<a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+<!-- JQUERY JS -->
+<script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+<!-- BOOTSTRAP JS -->
+<script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+<!-- SIDE-MENU JS -->
+<script src="{% static 'js/sidemenu/sidemenu.js' %}"></script>
+<!-- TypeHead js -->
+<!-- <script src="../assets/plugins/bootstrap5-typehead/autocomplete.js"></script>
+<script src="../assets/js/typehead.js"></script> -->
+<!-- SIDEBAR JS -->
+<script src="{% static 'js/sidebar/sidebar.js' %}"></script>
+<!--Perfect SCROLLBAR JS -->
+<script src="{% static 'js/p-scroll/perfect-scrollbar.js' %}"></script>
+<script src="{% static 'js/p-scroll/pscroll.js' %}"></script>
+<script src="{% static 'js/p-scroll/pscroll-1.js' %}"></script>
+<!-- Color Theme js -->
+<script src="{% static 'js/themecolors/themeColors.js' %}"></script>
+<!-- Sticky js -->
+<script src="{% static 'js/sticky/sticky.js' %}"></script>
+
+<!-- CUSTOM JS -->
+<script src="{% static 'js/custom1/custom1.js' %}"></script>
+
+<script src="{% static 'js/datatable/datatable.js' %}"></script>
+
+<!-- Switcher js -->
+<script src="{% static 'switcher/js/switcher.js' %}"></script>
+<!-- Inclua o JavaScript do Flatpickr -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<!-- Data Tables -->
+<script src="{% static 'select2/select2.full.min.js' %}"></script>
+<script src="{% static 'datatable/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'datatable/js/dataTables.bootstrap5.js' %}"></script>
+<script src="{% static 'datatable/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'datatable/js/buttons.bootstrap5.min.js' %}"></script>
+<script src="{% static 'datatable/js/jszip.min.js' %}"></script>
+<script src="{% static 'datatable/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'datatable/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'datatable/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'datatable/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'datatable/responsive.bootstrap5.min.js' %}"></script>
+<script src="{% static 'tabledata/table-data.js' %}"></script>
+
+</body>
